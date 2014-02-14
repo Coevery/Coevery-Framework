@@ -1,0 +1,12 @@
+DELETE FROM Settings_ShellFeatureRecord
+WHERE  Name IN ('Orchard.Recipes', 'Gallery', 'Orchard.Packaging', 'PackagingServices', 'Orchard.ContentPicker', 'Orchard.Pages');
+
+GO
+
+DELETE FROM Settings_ShellFeatureStateRecord
+WHERE  Name IN ('Orchard.Recipes', 'Gallery', 'Orchard.Packaging', 'PackagingServices', 'Orchard.ContentPicker', 'Orchard.Pages');
+
+DELETE FROM Orchard_Framework_DataMigrationRecord
+WHERE DataMigrationClass = 'Orchard.Packaging.Migrations';
+
+DROP TABLE Orchard_Packaging_PackagingSource;
