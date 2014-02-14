@@ -185,3 +185,5 @@ src/Orchard.Azure/Orchard.Azure.CloudService/Staging/
 
 #enable all /lib artifacts
 !lib/*/*.*
+src/Orchard.Web/App_Data/Sites/Default/mappings.bin
+src/Orchard.Web/App_Data/Sites/Default/Orchard.sdf
