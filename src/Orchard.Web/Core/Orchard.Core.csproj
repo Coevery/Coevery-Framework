@@ -88,7 +88,6 @@
     <Compile Include="Common\Routes.cs" />
     <Compile Include="Common\Services\IdentifierResolverSelector.cs" />
     <Compile Include="Common\Services\TextFieldFilter.cs" />
-    <Compile Include="Common\Services\XmlRpcHandler.cs" />
     <Compile Include="Common\DateEditor\DateEditorViewModel.cs" />
     <Compile Include="Common\Settings\TextFieldSettingsEvents.cs" />
     <Compile Include="Common\Settings\TextFieldSettings.cs" />
@@ -166,12 +165,7 @@
     <Compile Include="Contents\ViewModels\ListContentTypesViewModel.cs" />
     <Compile Include="Navigation\ViewModels\MenuPartViewModel.cs" />
     <Compile Include="Navigation\ViewModels\MenuWidgetViewModel.cs" />
-    <Compile Include="Reports\AdminMenu.cs" />
-    <Compile Include="Reports\Controllers\AdminController.cs" />
-    <Compile Include="Reports\Routes.cs" />
     <Compile Include="Navigation\Migrations.cs" />
-    <Compile Include="Reports\ViewModels\DisplayReportViewModel.cs" />
-    <Compile Include="Reports\ViewModels\ReportsAdminIndexViewModel.cs" />
     <Compile Include="Common\Utilities\LazyField.cs" />
     <Compile Include="Common\Handlers\CommonPartHandler.cs" />
     <Compile Include="Common\Models\CommonPart.cs" />
@@ -186,24 +180,6 @@
     <Compile Include="Dashboard\AdminMenu.cs" />
     <Compile Include="Dashboard\Controllers\AdminController.cs" />
     <Compile Include="Dashboard\Routes.cs" />
-    <Compile Include="Feeds\Controllers\FeedController.cs" />
-    <Compile Include="Feeds\IFeedManager.cs" />
-    <Compile Include="Feeds\Rss\Routes.cs" />
-    <Compile Include="Feeds\Services\FeedFilter.cs" />
-    <Compile Include="Feeds\Services\FeedManager.cs" />
-    <Compile Include="Feeds\StandardBuilders\ItemInspector.cs" />
-    <Compile Include="Feeds\StandardQueries\ContainerFeedQuery.cs" />
-    <Compile Include="Feeds\StandardBuilders\CorePartsFeedItemBuilder.cs" />
-    <Compile Include="Feeds\IFeedBuilder.cs" />
-    <Compile Include="Feeds\IFeedBuilderProvider.cs" />
-    <Compile Include="Feeds\IFeedQuery.cs" />
-    <Compile Include="Feeds\IFeedQueryProvider.cs" />
-    <Compile Include="Feeds\IFeedItemBuilder.cs" />
-    <Compile Include="Feeds\Models\FeedContext.cs" />
-    <Compile Include="Feeds\Models\FeedItem.cs" />
-    <Compile Include="Feeds\Models\FeedResponse.cs" />
-    <Compile Include="Feeds\Rss\RssFeedBuilder.cs" />
-    <Compile Include="Feeds\Rss\RssResult.cs" />
     <Compile Include="Navigation\AdminMenu.cs" />
     <Compile Include="Navigation\Controllers\AdminController.cs" />
     <Compile Include="Navigation\Models\MenuItemPart.cs" />
@@ -249,30 +225,15 @@
     <Compile Include="Settings\Models\SiteSettingsPart.cs" />
     <Compile Include="Settings\Services\SiteService.cs" />
     <Compile Include="Settings\ViewModels\SiteSettingsPartViewModel.cs" />
-    <Compile Include="Shapes\Localization\DateTimeLocalization.cs" />
-    <Compile Include="Shapes\ResourceManifest.cs" />
     <Compile Include="Shapes\CoreShapes.cs" />
     <Compile Include="Shapes\DateTimeShapes.cs" />
+    <Compile Include="Shapes\Localization\DateTimeLocalization.cs" />
+    <Compile Include="Shapes\ResourceManifest.cs" />
     <Compile Include="Title\Drivers\TitlePartDriver.cs" />
     <Compile Include="Title\Handlers\TitlePartHandler.cs" />
     <Compile Include="Title\Migrations.cs" />
     <Compile Include="Title\Models\TitlePart.cs" />
     <Compile Include="Title\Models\TitlePartRecord.cs" />
-    <Compile Include="XmlRpc\Controllers\HomeController.cs" />
-    <Compile Include="XmlRpc\Controllers\LiveWriterController.cs" />
-    <Compile Include="XmlRpc\IXmlRpcDriver.cs" />
-    <Compile Include="XmlRpc\IXmlRpcHandler.cs" />
-    <Compile Include="XmlRpc\Models\ModelBinderProvider.cs" />
-    <Compile Include="XmlRpc\Models\XRpcArray.cs" />
-    <Compile Include="XmlRpc\Models\XRpcData.cs" />
-    <Compile Include="XmlRpc\Models\XRpcMethodCall.cs" />
-    <Compile Include="XmlRpc\Models\XRpcMethodResponse.cs" />
-    <Compile Include="XmlRpc\Models\XRpcStruct.cs" />
-    <Compile Include="XmlRpc\Services\IXmlRpcReader.cs" />
-    <Compile Include="XmlRpc\Services\IXmlRpcWriter.cs" />
-    <Compile Include="XmlRpc\Services\XmlRpcReader.cs" />
-    <Compile Include="XmlRpc\Services\XmlRpcWriter.cs" />
-    <Compile Include="XmlRpc\XmlRpcContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Common\Module.txt" />
@@ -291,7 +252,6 @@
     <Content Include="Contents\Views\Admin\List.cshtml" />
     <Content Include="Dashboard\styles\menu.dashboard-admin.css" />
     <Content Include="Dashboard\styles\images\menu.dashboard.png" />
-    <Content Include="Feeds\Views\Feed.cshtml" />
     <Content Include="Contents\Views\Parts.Contents.Publish.cshtml" />
     <Content Include="Contents\Views\Parts.Contents.Publish.SummaryAdmin.cshtml" />
     <Content Include="Common\Views\EditorTemplates\Fields.Common.Text.Edit.cshtml" />
@@ -305,11 +265,6 @@
     <Content Include="Navigation\Styles\navigation-admin.css" />
     <Content Include="Navigation\Styles\images\menu.navigation.png" />
     <Content Include="Navigation\Styles\menu.navigation-admin.css" />
-    <Content Include="Reports\Module.txt" />
-    <Content Include="Reports\Styles\images\menu.reports.png" />
-    <Content Include="Reports\Styles\menu.reports-admin.css" />
-    <Content Include="Reports\Views\Admin\Display.cshtml" />
-    <Content Include="Reports\Views\Admin\Index.cshtml" />
     <Content Include="Settings\Module.txt" />
     <Content Include="Settings\Styles\admin.css" />
     <Content Include="Settings\Styles\images\menu.settings.png" />
@@ -333,11 +288,7 @@
     <Content Include="Shapes\Styles\Images\toolBarHoverButtonBackground.gif" />
     <Content Include="Shapes\Styles\jquery.switchable.css" />
     <Content Include="Shapes\Styles\special.css" />
-    <Content Include="Shapes\Views\HeadPreload.cshtml" />
-    <Content Include="Shapes\Views\Message.cshtml" />
-    <Content Include="Shapes\Views\NotFound.cshtml" />
     <Content Include="Title\Module.txt" />
-    <Content Include="XmlRpc\Module.txt" />
     <Content Include="Settings\Views\EditorTemplates\Parts.Settings.SiteSettingsPart.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -351,7 +302,6 @@
     <Content Include="Common\Views\Parts.Common.Body.cshtml" />
     <Content Include="Common\Views\EditorTemplates\Parts.Common.Body.cshtml" />
     <Content Include="Common\Views\Parts.Common.Owner.Edit.cshtml" />
-    <Content Include="Feeds\Module.txt" />
     <Content Include="Navigation\Module.txt" />
     <Content Include="Scheduling\Module.txt" />
   </ItemGroup>
@@ -370,12 +320,6 @@
   <ItemGroup>
     <Content Include="Contents\Views\Content.cshtml" />
     <Content Include="Contents\Views\Content.SummaryAdmin.cshtml" />
-    <Content Include="Shapes\Views\Document.cshtml" />
-    <Content Include="Shapes\Views\User.cshtml" />
-    <Content Include="Shapes\Views\Header.cshtml" />
-    <Content Include="Shapes\Views\Layout.cshtml" />
-    <Content Include="Shapes\Views\Menu.cshtml" />
-    <Content Include="Shapes\Views\MenuItem.cshtml" />
     <Content Include="Common\Placement.info" />
     <Content Include="Common\Views\Parts.Common.Metadata.Summary.cshtml" />
     <Content Include="Contents\Placement.info">
@@ -386,12 +330,6 @@
     <Content Include="Contents\Views\Content.Summary.cshtml" />
     <Content Include="Contents\Views\Content.SaveButton.cshtml" />
     <Content Include="Contents\Views\Content.PublishButton.cshtml" />
-    <Content Include="Shapes\Scripts\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Shapes\Styles\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Settings\Styles\Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -405,15 +343,6 @@
     <Content Include="Containers\Views\EditorTemplates\CustomProperties.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Shapes\Views\ShapeResult\Display.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Shapes\Views\LocalMenu.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Shapes\Views\LocalMenuItem.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Dashboard\styles\Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -425,9 +354,6 @@
     <Content Include="Navigation\Styles\Web.config">
       <SubType>Designer</SubType>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Reports\Styles\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Common\Views\Parts.Common.Metadata.SummaryAdmin.cshtml" />
@@ -471,9 +397,6 @@
     <Content Include="Title\Views\Parts.Title_SummaryAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Shapes\Views\ErrorPage.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Containers\Views\Parts.Container.Contained.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -481,9 +404,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Common\Views\Body-Textarea.Editor.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Shapes\Views\ShapeResult\DisplayPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Common\Views\Body-Wide.Editor.cshtml" />
@@ -513,12 +433,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Navigation\Views\Parts.MenuWidget.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Shapes\Views\Breadcrumb.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Shapes\Views\MenuItemLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Navigation\Views\MenuItemLink-HtmlMenuItem.cshtml" />
@@ -552,6 +466,26 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Containers\Views\DefinitionTemplates\ContainableTypePartSettings.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Shapes\Scripts\Web.config" />
+    <Content Include="Shapes\Styles\Web.config" />
+    <Content Include="Shapes\Views\Breadcrumb.cshtml" />
+    <Content Include="Shapes\Views\Document.cshtml" />
+    <Content Include="Shapes\Views\ErrorPage.cshtml" />
+    <Content Include="Shapes\Views\Header.cshtml" />
+    <Content Include="Shapes\Views\HeadPreload.cshtml" />
+    <Content Include="Shapes\Views\Layout.cshtml" />
+    <Content Include="Shapes\Views\LocalMenu.cshtml" />
+    <Content Include="Shapes\Views\LocalMenuItem.cshtml" />
+    <Content Include="Shapes\Views\Menu.cshtml" />
+    <Content Include="Shapes\Views\MenuItem.cshtml" />
+    <Content Include="Shapes\Views\MenuItemLink.cshtml" />
+    <Content Include="Shapes\Views\Message.cshtml" />
+    <Content Include="Shapes\Views\NotFound.cshtml" />
+    <Content Include="Shapes\Views\ShapeResult\Display.cshtml" />
+    <Content Include="Shapes\Views\ShapeResult\DisplayPartial.cshtml" />
+    <Content Include="Shapes\Views\User.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

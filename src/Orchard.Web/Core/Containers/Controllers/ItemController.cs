@@ -7,7 +7,6 @@ using Orchard.Core.Common.Models;
 using Orchard.Core.Containers.Extensions;
 using Orchard.Core.Containers.Models;
 using Orchard.Core.Contents;
-using Orchard.Core.Feeds;
 using Orchard.DisplayManagement;
 using Orchard.Mvc;
 using Orchard.Themes;
@@ -20,18 +19,15 @@ namespace Orchard.Core.Containers.Controllers {
     public class ItemController : Controller {
         private readonly IContentManager _contentManager;
         private readonly ISiteService _siteService;
-        private readonly IFeedManager _feedManager;
 
         public ItemController(
             IContentManager contentManager, 
             IShapeFactory shapeFactory,
             ISiteService siteService,
-            IFeedManager feedManager, 
             IOrchardServices services) {
 
             _contentManager = contentManager;
             _siteService = siteService;
-            _feedManager = feedManager;
             Shape = shapeFactory;
             Services = services;
             T = NullLocalizer.Instance;
