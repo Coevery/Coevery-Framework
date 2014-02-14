@@ -74,13 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\Commands\SiteSettingsCommands.cs" />
-    <Compile Include="Settings\ResourceManifest.cs" />
+    <Compile Include="Settings\Descriptor\Records\ShellDescriptorRecord.cs" />
+    <Compile Include="Settings\Descriptor\Records\ShellFeatureRecord.cs" />
+    <Compile Include="Settings\Descriptor\Records\ShellParameterRecord.cs" />
+    <Compile Include="Settings\Descriptor\ShellDescriptorManager.cs" />
+    <Compile Include="Settings\Handlers\SiteSettingsPartHandler.cs" />
     <Compile Include="Settings\Migrations.cs" />
-    <Compile Include="Settings\Drivers\SiteSettingsPartDriver.cs" />
-    <Compile Include="Settings\Routes.cs" />
-    <Compile Include="Settings\Tokens\SettingsTokens.cs" />
-    <Compile Include="Settings\ViewModels\SiteCulturesViewModel.cs" />
     <Compile Include="Settings\Metadata\ContentDefinitionManager.cs" />
     <Compile Include="Settings\Metadata\Records\ContentFieldDefinitionRecord.cs" />
     <Compile Include="Settings\Metadata\Records\ContentPartDefinitionRecord.cs" />
@@ -90,28 +89,12 @@
     <Compile Include="Settings\State\Records\ShellFeatureStateRecord.cs" />
     <Compile Include="Settings\State\Records\ShellStateRecord.cs" />
     <Compile Include="Settings\State\ShellStateManager.cs" />
-    <Compile Include="Settings\Descriptor\Records\ShellFeatureRecord.cs" />
-    <Compile Include="Settings\Descriptor\Records\ShellParameterRecord.cs" />
-    <Compile Include="Settings\Descriptor\Records\ShellDescriptorRecord.cs" />
-    <Compile Include="Settings\Descriptor\ShellDescriptorManager.cs" />
-    <Compile Include="Settings\AdminMenu.cs" />
-    <Compile Include="Settings\Controllers\AdminController.cs" />
-    <Compile Include="Settings\Handlers\SiteSettingsPartHandler.cs" />
     <Compile Include="Settings\Models\SiteSettingsPart.cs" />
     <Compile Include="Settings\Services\SiteService.cs" />
-    <Compile Include="Settings\ViewModels\SiteSettingsPartViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Settings\Module.txt" />
-    <Content Include="Settings\Styles\admin.css" />
-    <Content Include="Settings\Styles\images\menu.settings.png" />
-    <Content Include="Settings\Styles\menu.settings-admin.css" />
-    <Content Include="Settings\Views\Admin\Index.cshtml" />
-    <Content Include="Settings\Views\Admin\Culture.cshtml" />
     <Content Include="Settings\Placement.info" />
-    <Content Include="Settings\Views\DisplayTemplates\CurrentCulture.cshtml" />
-    <Content Include="Settings\Views\DisplayTemplates\RemovableCulture.cshtml" />
-    <Content Include="Settings\Views\EditorTemplates\Parts.Settings.SiteSettingsPart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Orchard\Orchard.Framework.csproj">
@@ -122,11 +105,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Settings\Styles\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />

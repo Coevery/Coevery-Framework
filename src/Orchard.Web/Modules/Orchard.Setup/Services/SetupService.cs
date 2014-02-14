@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using Orchard.ContentManagement;
-using Orchard.Core.Settings.Descriptor.Records;
 using Orchard.Core.Settings.Models;
 using Orchard.Data;
 using Orchard.Data.Migration;
