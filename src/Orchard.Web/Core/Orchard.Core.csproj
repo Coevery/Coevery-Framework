@@ -93,35 +93,11 @@
     <Compile Include="Common\Settings\TextFieldSettings.cs" />
     <Compile Include="Common\ViewModels\TextFieldDriverViewModel.cs" />
     <Compile Include="Common\ViewModels\TextFieldSettingsEventsViewModel.cs" />
-    <Compile Include="Containers\Controllers\ItemController.cs" />
-    <Compile Include="Containers\Drivers\ContainablePartDriver.cs" />
-    <Compile Include="Containers\Drivers\ContainerPartDriver.cs" />
     <Compile Include="Common\Drivers\BodyPartDriver.cs" />
     <Compile Include="Common\Drivers\CommonPartDriver.cs" />
     <Compile Include="Common\Drivers\TextFieldDriver.cs" />
-    <Compile Include="Containers\Drivers\ContainerWidgetPartDriver.cs" />
-    <Compile Include="Containers\Extensions\ContentDefinitionManagerExtensions.cs" />
-    <Compile Include="Containers\Handlers\ContainerWidgetPartHandler.cs" />
-    <Compile Include="Containers\Drivers\CustomPropertiesDriver.cs" />
-    <Compile Include="Containers\Extensions\ContentQueryExtensions.cs" />
-    <Compile Include="Containers\Handlers\ContainablePartHandler.cs" />
-    <Compile Include="Containers\Handlers\ContainerPartHandler.cs" />
-    <Compile Include="Containers\Models\ContainablePart.cs" />
-    <Compile Include="Containers\Models\ContainerPart.cs" />
     <Compile Include="Common\Shapes.cs" />
     <Compile Include="Common\Fields\TextField.cs" />
-    <Compile Include="Containers\Models\ContainerWidgetPart.cs" />
-    <Compile Include="Containers\Models\CustomPropertiesPart.cs" />
-    <Compile Include="Containers\Services\ContainerService.cs" />
-    <Compile Include="Containers\Services\ListViewProvider.cs" />
-    <Compile Include="Containers\Services\ListViewService.cs" />
-    <Compile Include="Containers\Services\Randomizer.cs" />
-    <Compile Include="Containers\Settings\ContainerSettings.cs" />
-    <Compile Include="Containers\Settings\ContainableSettings.cs" />
-    <Compile Include="Containers\ViewModels\ContainableViewModel.cs" />
-    <Compile Include="Containers\ViewModels\ContainerWidgetViewModel.cs" />
-    <Compile Include="Containers\ViewModels\ContainerViewModel.cs" />
-    <Compile Include="Containers\ViewModels\ContainerTypePartSettingsViewModel.cs" />
     <Compile Include="Common\Services\BbcodeFilter.cs" />
     <Compile Include="Common\Services\ICommonService.cs" />
     <Compile Include="Common\Services\CommonService.cs" />
@@ -215,7 +191,6 @@
     <Content Include="Common\Views\Parts.Common.Body.SummaryAdmin.cshtml" />
     <Content Include="Common\Views\Parts.Common.Metadata.cshtml" />
     <Content Include="Common\Views\CommonMetadataOwner.cshtml" />
-    <Content Include="Containers\Module.txt" />
     <Content Include="Common\Views\EditorTemplates\Fields.Common.Text.Edit.cshtml" />
     <Content Include="Common\Views\EditorTemplates\Parts.Common.Container.cshtml" />
     <Content Include="Common\Views\Body.Editor.cshtml" />
@@ -280,14 +255,6 @@
     <Content Include="Settings\Styles\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Containers\Placement.info" />
-    <Content Include="Containers\Views\EditorTemplates\ContainerWidget.cshtml" />
-    <Content Include="Containers\Views\EditorTemplates\Container.cshtml" />
-    <Content Include="Containers\Views\DefinitionTemplates\ContainerPartSettings.cshtml" />
-    <Content Include="Containers\Views\DefinitionTemplates\ContainerTypePartSettingsViewModel.cshtml" />
-    <Content Include="Containers\Views\EditorTemplates\Containable.cshtml" />
-    <Content Include="Containers\Views\Parts.ContainerWidget.cshtml" />
-    <Content Include="Containers\Views\EditorTemplates\CustomProperties.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Navigation\Styles\Web.config">
@@ -334,9 +301,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Title\Views\Parts.Title_SummaryAdmin.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Containers\Views\Parts.Container.Contained.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Common\Views\DefinitionTemplates\TextFieldSettingsEventsViewModel.cshtml" />
@@ -390,12 +354,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Navigation\Views\MenuItemLink-ShapeMenuItem.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Containers\Views\EditorTemplates\ListViewPicker.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Containers\Views\DefinitionTemplates\ContainableTypePartSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Shapes\Scripts\Web.config" />
