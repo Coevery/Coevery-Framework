@@ -312,10 +312,63 @@
     <Compile Include="Recipes\Services\IRecipeScheduler.cs" />
     <Compile Include="Recipes\Services\IRecipeStepExecutor.cs" />
     <Compile Include="Recipes\Services\IRecipeStepQueue.cs" />
-    <Compile Include="Security\AlwaysAccessibleAttribute.cs" />
-    <Compile Include="Security\IEncryptionService.cs" />
-    <Compile Include="Security\CurrentUserWorkContext.cs" />
-    <Compile Include="Security\Providers\DefaultEncryptionService.cs" />
+    <Compile Include="Security\AlwaysAccessibleAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\Authorizer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\CreateUserParams.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\CurrentUserWorkContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\IAuthenticationService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\IAuthorizationService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\IAuthorizationServiceEventHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\IEncryptionService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\IMembershipService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\IUser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\MembershipSettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\OrchardSecurityException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\Permissions\IPermissionProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\Permissions\Permission.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\Providers\DefaultEncryptionService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\Providers\FormsAuthenticationService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\Providers\OrchardRoleProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\SecurityFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\StandardPermissions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Services\Clock.cs" />
     <Compile Include="Services\DefaultJsonConverter.cs" />
     <Compile Include="Services\IJsonConverter.cs" />
@@ -836,10 +889,6 @@
     <Compile Include="Mvc\Wrappers\HttpRequestBaseWrapper.cs" />
     <Compile Include="Mvc\Wrappers\HttpResponseBaseWrapper.cs" />
     <Compile Include="OrchardException.cs" />
-    <Compile Include="Security\IAuthorizationServiceEventHandler.cs" />
-    <Compile Include="Security\MembershipSettings.cs" />
-    <Compile Include="Security\StandardPermissions.cs" />
-    <Compile Include="Security\OrchardSecurityException.cs" />
     <Compile Include="Tasks\Scheduling\IPublishingTaskManager.cs" />
     <Compile Include="Tasks\Scheduling\IScheduledTask.cs" />
     <Compile Include="Localization\Text.cs" />
@@ -915,10 +964,6 @@
     <Compile Include="Mvc\ViewPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Security\IAuthenticationService.cs" />
-    <Compile Include="Security\Authorizer.cs" />
-    <Compile Include="Security\Providers\FormsAuthenticationService.cs" />
-    <Compile Include="Security\SecurityFilter.cs" />
     <Compile Include="Settings\ISite.cs" />
     <Compile Include="Settings\ISiteService.cs" />
     <Compile Include="Tasks\BackgroundService.cs" />
@@ -935,13 +980,6 @@
     <Compile Include="UI\Notify\NotifierExtensions.cs" />
     <Compile Include="UI\Notify\NotifyEntry.cs" />
     <Compile Include="UI\Notify\NotifyFilter.cs" />
-    <Compile Include="Security\CreateUserParams.cs" />
-    <Compile Include="Security\IAuthorizationService.cs" />
-    <Compile Include="Security\IMembershipService.cs" />
-    <Compile Include="Security\IUser.cs" />
-    <Compile Include="Security\Permissions\IPermissionProvider.cs" />
-    <Compile Include="Security\Permissions\Permission.cs" />
-    <Compile Include="Security\Providers\OrchardRoleProvider.cs" />
     <Compile Include="Services\IClock.cs" />
     <Compile Include="FileSystems\Media\IStorageFile.cs" />
     <Compile Include="FileSystems\Media\IStorageFolder.cs" />

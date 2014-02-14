@@ -91,6 +91,7 @@
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="Services\NavigationManager.cs" />
+    <Compile Include="Services\DefaultAuthorizationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
