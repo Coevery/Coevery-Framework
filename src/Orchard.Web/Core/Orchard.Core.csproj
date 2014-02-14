@@ -141,7 +141,6 @@
     <Compile Include="Contents\Settings\ContentPartSettings.cs" />
     <Compile Include="Contents\Shapes.cs" />
     <Compile Include="Contents\ViewModels\PublishContentViewModel.cs" />
-    <Compile Include="Dashboard\Services\CompilationErrorBanner.cs" />
     <Compile Include="Navigation\Commands\MenuCommands.cs" />
     <Compile Include="Navigation\Drivers\AdminMenuPartDriver.cs" />
     <Compile Include="Navigation\Drivers\MenuItemPartDriver.cs" />
@@ -177,9 +176,6 @@
     <Compile Include="Common\OwnerEditor\OwnerEditorViewModel.cs" />
     <Compile Include="Contents\AdminMenu.cs" />
     <Compile Include="Contents\Controllers\AdminController.cs" />
-    <Compile Include="Dashboard\AdminMenu.cs" />
-    <Compile Include="Dashboard\Controllers\AdminController.cs" />
-    <Compile Include="Dashboard\Routes.cs" />
     <Compile Include="Navigation\AdminMenu.cs" />
     <Compile Include="Navigation\Controllers\AdminController.cs" />
     <Compile Include="Navigation\Models\MenuItemPart.cs" />
@@ -250,8 +246,6 @@
     <Content Include="Contents\Views\Admin\Create.cshtml" />
     <Content Include="Contents\Views\Admin\Edit.cshtml" />
     <Content Include="Contents\Views\Admin\List.cshtml" />
-    <Content Include="Dashboard\styles\menu.dashboard-admin.css" />
-    <Content Include="Dashboard\styles\images\menu.dashboard.png" />
     <Content Include="Contents\Views\Parts.Contents.Publish.cshtml" />
     <Content Include="Contents\Views\Parts.Contents.Publish.SummaryAdmin.cshtml" />
     <Content Include="Common\Views\EditorTemplates\Fields.Common.Text.Edit.cshtml" />
@@ -306,8 +300,6 @@
     <Content Include="Scheduling\Module.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Dashboard\Module.txt" />
-    <Content Include="Dashboard\Views\Admin\Index.cshtml" />
     <Content Include="Navigation\Views\Admin\Index.cshtml" />
     <Content Include="Navigation\Views\EditorTemplates\Parts.Navigation.Menu.Edit.cshtml" />
   </ItemGroup>
@@ -341,9 +333,6 @@
     <Content Include="Containers\Views\EditorTemplates\Containable.cshtml" />
     <Content Include="Containers\Views\Parts.ContainerWidget.cshtml" />
     <Content Include="Containers\Views\EditorTemplates\CustomProperties.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Dashboard\styles\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Contents\Styles\Web.config">
