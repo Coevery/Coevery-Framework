@@ -203,7 +203,6 @@
     <Compile Include="Data\Conventions\CacheConventions.cs" />
     <Compile Include="Data\DefaultDatabaseCacheConfiguration.cs" />
     <Compile Include="Data\IDatabaseCacheConfiguration.cs" />
-    <Compile Include="Data\Migration\AutomaticDataMigrations.cs" />
     <Compile Include="Data\Migration\Interpreters\SqlCeCommandInterpreter.cs" />
     <Compile Include="Data\ISessionConfigurationEvents.cs" />
     <Compile Include="Data\ISessionInterceptor.cs" />

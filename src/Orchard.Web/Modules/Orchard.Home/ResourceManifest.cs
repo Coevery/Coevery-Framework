@@ -1,9 +1,10 @@
 using Orchard.UI.Resources;
 
-namespace Orchard.Core.Settings {
+namespace Orchard.Core.Shapes {
     public class ResourceManifest : IResourceManifestProvider {
         public void BuildManifests(ResourceManifestBuilder builder) {
-            builder.Add().DefineStyle("SettingsAdmin").SetUrl("admin.css");
+            var manifest = builder.Add();
+            manifest.DefineScript("ShapesBase").SetUrl("base.js").SetDependencies("jQuery");
         }
     }
 }
