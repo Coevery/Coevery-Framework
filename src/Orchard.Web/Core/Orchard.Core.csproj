@@ -73,36 +73,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Controllers\ErrorController.cs" />
-    <Compile Include="Common\DateEditor\DateEditorSettings.cs" />
-    <Compile Include="Common\OwnerEditor\OwnerEditorSettings.cs" />
-    <Compile Include="Common\OwnerEditor\OwnerEditorDriver.cs" />
-    <Compile Include="Common\DateEditor\DateEditorDriver.cs" />
-    <Compile Include="Common\Drivers\IdentityPartDriver.cs" />
-    <Compile Include="Common\DateEditor\DateEditorHandler.cs" />
-    <Compile Include="Common\Handlers\IdentityPartHandler.cs" />
-    <Compile Include="Common\Models\CommonPartVersionRecord.cs" />
-    <Compile Include="Common\Models\IdentityPartRecord.cs" />
-    <Compile Include="Common\Models\IdentityPart.cs" />
-    <Compile Include="Common\ResourceManifest.cs" />
-    <Compile Include="Common\Routes.cs" />
-    <Compile Include="Common\Services\IdentifierResolverSelector.cs" />
-    <Compile Include="Common\Services\TextFieldFilter.cs" />
-    <Compile Include="Common\DateEditor\DateEditorViewModel.cs" />
-    <Compile Include="Common\Settings\TextFieldSettingsEvents.cs" />
-    <Compile Include="Common\Settings\TextFieldSettings.cs" />
-    <Compile Include="Common\ViewModels\TextFieldDriverViewModel.cs" />
-    <Compile Include="Common\ViewModels\TextFieldSettingsEventsViewModel.cs" />
-    <Compile Include="Common\Drivers\BodyPartDriver.cs" />
-    <Compile Include="Common\Drivers\CommonPartDriver.cs" />
-    <Compile Include="Common\Drivers\TextFieldDriver.cs" />
-    <Compile Include="Common\Shapes.cs" />
-    <Compile Include="Common\Fields\TextField.cs" />
-    <Compile Include="Common\Services\BbcodeFilter.cs" />
-    <Compile Include="Common\Services\ICommonService.cs" />
-    <Compile Include="Common\Services\CommonService.cs" />
-    <Compile Include="Common\Settings\BodySettings.cs" />
-    <Compile Include="Common\ViewModels\ContainerEditorViewModel.cs" />
     <Compile Include="Navigation\Commands\MenuCommands.cs" />
     <Compile Include="Navigation\Drivers\AdminMenuPartDriver.cs" />
     <Compile Include="Navigation\Drivers\MenuItemPartDriver.cs" />
@@ -124,15 +94,6 @@
     <Compile Include="Navigation\Settings\AdminMenuPartTypeSettings.cs" />
     <Compile Include="Navigation\ViewModels\MenuPartViewModel.cs" />
     <Compile Include="Navigation\ViewModels\MenuWidgetViewModel.cs" />
-    <Compile Include="Common\Utilities\LazyField.cs" />
-    <Compile Include="Common\Handlers\CommonPartHandler.cs" />
-    <Compile Include="Common\Models\CommonPart.cs" />
-    <Compile Include="Common\Handlers\BodyPartHandler.cs" />
-    <Compile Include="Common\Models\BodyPart.cs" />
-    <Compile Include="Common\Models\BodyPartRecord.cs" />
-    <Compile Include="Common\Models\CommonPartRecord.cs" />
-    <Compile Include="Common\ViewModels\BodyEditorViewModel.cs" />
-    <Compile Include="Common\OwnerEditor\OwnerEditorViewModel.cs" />
     <Compile Include="Navigation\AdminMenu.cs" />
     <Compile Include="Navigation\Controllers\AdminController.cs" />
     <Compile Include="Navigation\Models\MenuItemPart.cs" />
@@ -183,17 +144,6 @@
     <Compile Include="Title\Models\TitlePartRecord.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common\Module.txt" />
-    <Content Include="Common\Styles\orchard-common-datetime.css" />
-    <Content Include="Common\Views\DefinitionTemplates\BodyTypePartSettings.cshtml" />
-    <Content Include="Common\Views\DefinitionTemplates\BodyPartSettings.cshtml" />
-    <Content Include="Common\Views\Fields.Common.Text.cshtml" />
-    <Content Include="Common\Views\Parts.Common.Body.SummaryAdmin.cshtml" />
-    <Content Include="Common\Views\Parts.Common.Metadata.cshtml" />
-    <Content Include="Common\Views\CommonMetadataOwner.cshtml" />
-    <Content Include="Common\Views\EditorTemplates\Fields.Common.Text.Edit.cshtml" />
-    <Content Include="Common\Views\EditorTemplates\Parts.Common.Container.cshtml" />
-    <Content Include="Common\Views\Body.Editor.cshtml" />
     <Content Include="Navigation\Scripts\jquery.mjs.nestedSortable.js" />
     <Content Include="Navigation\Scripts\navigation-admin.js" />
     <Content Include="Navigation\Styles\images\move.gif" />
@@ -233,9 +183,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common\Views\Parts.Common.Body.cshtml" />
-    <Content Include="Common\Views\EditorTemplates\Parts.Common.Body.cshtml" />
-    <Content Include="Common\Views\Parts.Common.Owner.Edit.cshtml" />
     <Content Include="Navigation\Module.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -243,14 +190,9 @@
     <Content Include="Navigation\Views\EditorTemplates\Parts.Navigation.Menu.Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common\Views\Parts.Common.Body.Summary.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common\Placement.info" />
-    <Content Include="Common\Views\Parts.Common.Metadata.Summary.cshtml" />
     <Content Include="Navigation\Placement.info" />
     <Content Include="Settings\Styles\Web.config">
       <SubType>Designer</SubType>
@@ -262,9 +204,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common\Views\Parts.Common.Metadata.SummaryAdmin.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Navigation\Views\EditorTemplates\Parts.Navigation.AdminMenu.Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -272,20 +211,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Common\Views\Parts.Common.Date.Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Common\Styles\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Common\Views\DefinitionTemplates\DateEditorSettings.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Common\Views\DefinitionTemplates\OwnerEditorSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Title\Placement.info" />
@@ -301,21 +226,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Title\Views\Parts.Title_SummaryAdmin.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Common\Views\DefinitionTemplates\TextFieldSettingsEventsViewModel.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Common\Views\Body-Textarea.Editor.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Common\Views\Body-Wide.Editor.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Common\Views\Body-Large.Editor.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Common\Views\Body-Small.Editor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Navigation\Scripts\Web.config">
