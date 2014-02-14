@@ -190,11 +190,6 @@
     <Compile Include="Navigation\ViewModels\MenuItemEntry.cs" />
     <Compile Include="Navigation\ViewModels\NavigationManagementViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scheduling\Migrations.cs" />
-    <Compile Include="Scheduling\Models\ScheduledTaskRecord.cs" />
-    <Compile Include="Scheduling\Services\ScheduledTaskManager.cs" />
-    <Compile Include="Scheduling\Services\ScheduledTaskExecutor.cs" />
-    <Compile Include="Scheduling\Models\Task.cs" />
     <Compile Include="Settings\Commands\SiteSettingsCommands.cs" />
     <Compile Include="Settings\ResourceManifest.cs" />
     <Compile Include="Settings\Migrations.cs" />
@@ -297,7 +292,6 @@
     <Content Include="Common\Views\EditorTemplates\Parts.Common.Body.cshtml" />
     <Content Include="Common\Views\Parts.Common.Owner.Edit.cshtml" />
     <Content Include="Navigation\Module.txt" />
-    <Content Include="Scheduling\Module.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Navigation\Views\Admin\Index.cshtml" />
