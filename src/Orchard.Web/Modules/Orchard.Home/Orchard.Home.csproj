@@ -90,6 +90,7 @@
     <Compile Include="CoreShapes.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Routes.cs" />
+    <Compile Include="Services\NavigationManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
