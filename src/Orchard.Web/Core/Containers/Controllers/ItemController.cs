@@ -1,12 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
-using System.Web.Routing;
+﻿using System.Web.Mvc;
 using Orchard.ContentManagement;
-using Orchard.Core.Common.Models;
-using Orchard.Core.Containers.Extensions;
 using Orchard.Core.Containers.Models;
-using Orchard.Core.Contents;
+using Orchard.Core.Navigation;
 using Orchard.DisplayManagement;
 using Orchard.Mvc;
 using Orchard.Themes;
@@ -45,10 +40,6 @@ namespace Orchard.Core.Containers.Controllers {
 
             if (container == null) {
                 return HttpNotFound(T("Container not found").Text);
-            }
-
-            if (!Services.Authorizer.Authorize(Permissions.ViewContent, container, T("Cannot view content"))) {
-                return new HttpUnauthorizedResult();
             }
 
             // TODO: (PH) Find a way to apply PagerParameters via a driver so we can lose this controller

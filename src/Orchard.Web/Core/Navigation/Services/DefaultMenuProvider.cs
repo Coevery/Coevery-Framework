@@ -19,21 +19,16 @@ namespace Orchard.Core.Navigation.Services {
                 .Where(x => x.MenuId == menu.Id)
                 .List();
 
-            foreach (var menuPart in menuParts) {
-                if (menuPart != null) {
+            foreach(var menuPart in menuParts) {
+                if(menuPart != null) {
                     var part = menuPart;
 
                     string culture = null;
                     // fetch the culture of the content menu item, if any
                     var localized = part.As<ILocalizableAspect>();
-                    if (localized != null) {
+                    if(localized != null) {
                         culture = localized.Culture;
                     }
-
-                    if (part.Is<MenuItemPart>())
-                        builder.Add(new LocalizedString(HttpUtility.HtmlEncode(part.MenuText)), part.MenuPosition, item => item.Url(part.As<MenuItemPart>().Url).Content(part).Culture(culture).Permission(Contents.Permissions.ViewContent));
-                    else
-                        builder.Add(new LocalizedString(HttpUtility.HtmlEncode(part.MenuText)), part.MenuPosition, item => item.Action(_contentManager.GetItemMetadata(part.ContentItem).DisplayRouteValues).Content(part).Culture(culture).Permission(Contents.Permissions.ViewContent));
                 }
             }
         }
