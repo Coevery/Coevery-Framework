@@ -134,10 +134,6 @@
     <Compile Include="Settings\Models\SiteSettingsPart.cs" />
     <Compile Include="Settings\Services\SiteService.cs" />
     <Compile Include="Settings\ViewModels\SiteSettingsPartViewModel.cs" />
-    <Compile Include="Shapes\CoreShapes.cs" />
-    <Compile Include="Shapes\DateTimeShapes.cs" />
-    <Compile Include="Shapes\Localization\DateTimeLocalization.cs" />
-    <Compile Include="Shapes\ResourceManifest.cs" />
     <Compile Include="Title\Drivers\TitlePartDriver.cs" />
     <Compile Include="Title\Handlers\TitlePartHandler.cs" />
     <Compile Include="Title\Models\TitlePart.cs" />
@@ -159,19 +155,6 @@
     <Content Include="Settings\Placement.info" />
     <Content Include="Settings\Views\DisplayTemplates\CurrentCulture.cshtml" />
     <Content Include="Settings\Views\DisplayTemplates\RemovableCulture.cshtml" />
-    <Content Include="Shapes\Module.txt" />
-    <Content Include="Shapes\Scripts\base.js" />
-    <Content Include="Shapes\Scripts\html5.js" />
-    <Content Include="Shapes\Scripts\jquery.switchable.js" />
-    <Content Include="Shapes\Styles\Images\detail-view-on.gif" />
-    <Content Include="Shapes\Styles\Images\detail-view.gif" />
-    <Content Include="Shapes\Styles\Images\summary-view-on.gif" />
-    <Content Include="Shapes\Styles\Images\summary-view.gif" />
-    <Content Include="Shapes\Styles\Images\toolBarActiveButtonBackground.gif" />
-    <Content Include="Shapes\Styles\Images\toolBarBackground.gif" />
-    <Content Include="Shapes\Styles\Images\toolBarHoverButtonBackground.gif" />
-    <Content Include="Shapes\Styles\jquery.switchable.css" />
-    <Content Include="Shapes\Styles\special.css" />
     <Content Include="Title\Module.txt" />
     <Content Include="Settings\Views\EditorTemplates\Parts.Settings.SiteSettingsPart.cshtml" />
   </ItemGroup>
@@ -264,26 +247,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Navigation\Views\MenuItemLink-ShapeMenuItem.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Shapes\Scripts\Web.config" />
-    <Content Include="Shapes\Styles\Web.config" />
-    <Content Include="Shapes\Views\Breadcrumb.cshtml" />
-    <Content Include="Shapes\Views\Document.cshtml" />
-    <Content Include="Shapes\Views\ErrorPage.cshtml" />
-    <Content Include="Shapes\Views\Header.cshtml" />
-    <Content Include="Shapes\Views\HeadPreload.cshtml" />
-    <Content Include="Shapes\Views\Layout.cshtml" />
-    <Content Include="Shapes\Views\LocalMenu.cshtml" />
-    <Content Include="Shapes\Views\LocalMenuItem.cshtml" />
-    <Content Include="Shapes\Views\Menu.cshtml" />
-    <Content Include="Shapes\Views\MenuItem.cshtml" />
-    <Content Include="Shapes\Views\MenuItemLink.cshtml" />
-    <Content Include="Shapes\Views\Message.cshtml" />
-    <Content Include="Shapes\Views\NotFound.cshtml" />
-    <Content Include="Shapes\Views\ShapeResult\Display.cshtml" />
-    <Content Include="Shapes\Views\ShapeResult\DisplayPartial.cshtml" />
-    <Content Include="Shapes\Views\User.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
