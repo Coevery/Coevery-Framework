@@ -32,7 +32,6 @@ namespace Orchard.Modules.Controllers {
         private readonly IReportsCoordinator _reportsCoordinator;
         private readonly IExtensionManager _extensionManager;
         private readonly IFeatureManager _featureManager;
-        private readonly IRecipeManager _recipeManager;
         private readonly ShellDescriptor _shellDescriptor;
         private readonly ShellSettings _shellSettings;
 
@@ -44,7 +43,6 @@ namespace Orchard.Modules.Controllers {
             IReportsCoordinator reportsCoordinator,
             IExtensionManager extensionManager,
             IFeatureManager featureManager,
-            IRecipeManager recipeManager,
             ShellDescriptor shellDescriptor,
             ShellSettings shellSettings,
             IShapeFactory shapeFactory)
@@ -56,7 +54,6 @@ namespace Orchard.Modules.Controllers {
             _reportsCoordinator = reportsCoordinator;
             _extensionManager = extensionManager;
             _featureManager = featureManager;
-            _recipeManager = recipeManager;
             _shellDescriptor = shellDescriptor;
             _shellSettings = shellSettings;
             Shape = shapeFactory;
