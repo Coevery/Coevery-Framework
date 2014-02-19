@@ -6,6 +6,7 @@ using System.Web;
 using Orchard.ContentManagement;
 using Orchard.Core.Settings.Descriptor.Records;
 using Orchard.Core.Settings.Models;
+using Orchard.Core.Settings.Services;
 using Orchard.Data;
 using Orchard.Data.Migration;
 using Orchard.Data.Migration.Interpreters;
@@ -73,10 +74,9 @@ namespace Orchard.Setup.Services {
                     // Framework
                     "Orchard.Framework",
                     // Core
-                    "Common", "Containers", "Contents", "Dashboard", "Feeds", "Navigation", "Reports", "Scheduling", "Settings", "Shapes", "Title",
+                    "Settings",
                     // Modules
-                    "Orchard.Pages", "Orchard.ContentPicker", "Orchard.Themes", "Orchard.Users", "Orchard.Roles", "Orchard.Modules", 
-                    "PackagingServices", "Orchard.Packaging", "Gallery", "Orchard.Recipes"
+                    "Orchard.Recipes", "Orchard.Users"
                 };
 
             context.EnabledFeatures = hardcoded.Union(context.EnabledFeatures ?? Enumerable.Empty<string>()).Distinct().ToList();
@@ -106,6 +106,8 @@ namespace Orchard.Setup.Services {
             };
 
             var shellBlueprint = _compositionStrategy.Compose(shellSettings, shellDescriptor);
+
+            var f = shellBlueprint.Dependencies.Where(d => d.Type == typeof(RecipeManager)).ToList();
 
             // initialize database explicitly, and store shell descriptor
             using (var bootstrapLifetimeScope = _shellContainerFactory.CreateContainer(shellSettings, shellBlueprint)) {
@@ -172,16 +174,6 @@ namespace Orchard.Setup.Services {
         }
 
         private string CreateTenantData(SetupContext context, IWorkContextScope environment) {
-            // create superuser
-            var membershipService = environment.Resolve<IMembershipService>();
-            var user =
-                membershipService.CreateUser(new CreateUserParams(context.AdminUsername, context.AdminPassword,
-                                                                  String.Empty, String.Empty, String.Empty,
-                                                                  true));
-
-            // set superuser as current user for request (it will be set as the owner of all content items)
-            var authenticationService = environment.Resolve<IAuthenticationService>();
-            authenticationService.SetAuthenticatedUserForRequest(user);
 
             // set site name and settings
             var siteService = environment.Resolve<ISiteService>();
@@ -197,11 +189,6 @@ namespace Orchard.Setup.Services {
 
             var recipeManager = environment.Resolve<IRecipeManager>();
             string executionId = recipeManager.Execute(Recipes().FirstOrDefault(r => r.Name.Equals(context.Recipe, StringComparison.OrdinalIgnoreCase)));
-
-            // null check: temporary fix for running setup in command line
-            if (HttpContext.Current != null) {
-                authenticationService.SignIn(user, true);
-            }
 
             return executionId;
         }
