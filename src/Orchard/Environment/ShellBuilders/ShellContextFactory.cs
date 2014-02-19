@@ -102,7 +102,8 @@ namespace Orchard.Environment.ShellBuilders {
                 SerialNumber = -1,
                 Features = new[] {
                     new ShellFeature { Name = "Orchard.Setup" },
-                    new ShellFeature { Name = "Shapes" }
+                    new ShellFeature { Name = "Shapes" },
+                    new ShellFeature { Name = "Orchard.jQuery" },
                 },
             };
 

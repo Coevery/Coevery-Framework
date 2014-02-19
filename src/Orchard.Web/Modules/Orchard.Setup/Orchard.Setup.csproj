@@ -86,7 +86,6 @@
     <Compile Include="Controllers\SetupDatabaseType.cs" />
     <Compile Include="CoreShapes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceManifest.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="Services\ISetupService.cs" />
     <Compile Include="Services\SetupContext.cs" />
@@ -101,8 +100,6 @@
     <Content Include="Recipes\core.recipe.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Scripts\base.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\setup.js" />
     <Content Include="Views\Setup\Index.cshtml" />
   </ItemGroup>
