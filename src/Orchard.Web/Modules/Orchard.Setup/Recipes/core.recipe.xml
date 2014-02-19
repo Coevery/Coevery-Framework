@@ -9,23 +9,6 @@
     <Version>1.0</Version>
   </Recipe>
 
-  <Feature disable="Feeds, Containers" 
-           enable="Orchard.jQuery,Orchard.Alias,Orchard.Autoroute" />
-  
-  <Metadata>
-    <Types>
-      <Page ContentTypeSettings.Draftable="True" />    
-    </Types>
-    <Parts>
-      <BodyPart BodyPartSettings.FlavorDefault="html" />
-    </Parts>
-  </Metadata>
+  <Feature enable="Orchard.Home, Orchard.Recipes" />
 
-  <Settings />
-
-  <Migration features="*" />
-  
-  <Command>
-    page create /Slug:"welcome-to-orchard" /Title:"Welcome to Orchard!" /Path:"welcome-to-orchard" /Homepage:true /Publish:true /Text:"Welcome To Orchard!" /MenuText:"Home" /MenuName:"Main Menu"
-  </Command>
 </Orchard>
