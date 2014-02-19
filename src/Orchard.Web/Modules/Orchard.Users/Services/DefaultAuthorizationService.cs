@@ -8,7 +8,7 @@ using Orchard.ContentManagement;
 using Orchard.Security;
 using Orchard.Security.Permissions;
 
-namespace Orchard.Roles.Services {
+namespace Orchard.Users.Services {
     [UsedImplicitly]
     public class DefaultAuthorizationService : IAuthorizationService {
         public void CheckAccess(Permission permission, IUser user, IContent content) {}
