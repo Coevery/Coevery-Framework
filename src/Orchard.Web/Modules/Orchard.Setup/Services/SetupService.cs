@@ -118,14 +118,14 @@ namespace Orchard.Setup.Services {
                     var schemaBuilder = new SchemaBuilder(environment.Resolve<IDataMigrationInterpreter>());
                     try {
                         var tablePrefix = String.IsNullOrEmpty(shellSettings.DataTablePrefix) ? "" : shellSettings.DataTablePrefix + "_";
-                        schemaBuilder.ExecuteSql("SELECT * FROM " + tablePrefix + "Settings_ShellDescriptorRecord");
+                        schemaBuilder.ExecuteSql("SELECT * FROM " + tablePrefix + "ShellDescriptorRecord");
                     }
                     catch {
                         var reportsCoordinator = environment.Resolve<IReportsCoordinator>();
 
                         reportsCoordinator.Register("Data Migration", "Setup", "Orchard installation");
 
-                        schemaBuilder.CreateTable("Orchard_Framework_DataMigrationRecord",
+                        schemaBuilder.CreateTable("DataMigrationRecord",
                                                   table => table
                                                                .Column<int>("Id", column => column.PrimaryKey().Identity())
                                                                .Column<string>("DataMigrationClass")
