@@ -99,6 +99,8 @@
     <Content Include="Recipes\core.recipe.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Scripts\base.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\setup.js" />
     <Content Include="Views\Setup\Index.cshtml" />
   </ItemGroup>
