@@ -9,8 +9,8 @@ namespace Orchard.Data.Migration.Schema {
 
         public SchemaBuilder(IDataMigrationInterpreter interpreter, string featurePrefix = null, Func<string, string> formatPrefix = null) {
             _interpreter = interpreter;
-            _featurePrefix = featurePrefix ?? String.Empty;
-            _formatPrefix = formatPrefix ?? (s => s ?? String.Empty);
+            _featurePrefix = String.Empty;
+            _formatPrefix = s => s ?? String.Empty;
         }
 
         public IDataMigrationInterpreter Interpreter {

@@ -166,9 +166,6 @@ namespace Orchard.Environment.ShellBuilders {
         }
 
         private static RecordBlueprint BuildRecord(Type type, Feature feature, ShellSettings settings) {
-            var extensionDescriptor = feature.Descriptor.Extension;
-            var extensionName = extensionDescriptor.Id.Replace('.', '_');
-
             var dataTablePrefix = "";
             if (!string.IsNullOrEmpty(settings.DataTablePrefix))
                 dataTablePrefix = settings.DataTablePrefix + "_";
@@ -176,7 +173,7 @@ namespace Orchard.Environment.ShellBuilders {
             return new RecordBlueprint {
                 Type = type,
                 Feature = feature,
-                TableName = dataTablePrefix + extensionName + '_' + type.Name,
+                TableName = dataTablePrefix + type.Name,
             };
         }
     }
