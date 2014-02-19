@@ -152,7 +152,7 @@ $RECYCLE.BIN/
 .DS_Store
 
 # =========================
-# Orchard specifics
+# Coevery specifics
 # =========================
 
 App_Data/
@@ -164,26 +164,26 @@ build/
 /buildtasks
 /artifacts
 *.sln.cache
-src/Orchard.Web/Media/*
+src/Coevery.Web/Media/*
 log.xml
 profiling/
 *.orig
-src/Orchard.Web/Modules-temp/*
+src/Coevery.Web/Modules-temp/*
 src/Backup/*
 src/packages/*
 src/UpgradeLog.*
 *.itrace.csdef
 *.build.csdef
-src/Orchard.Azure/Orchard.Azure.Web/Core/
-src/Orchard.Azure/Orchard.Azure.Web/Modules/
-src/Orchard.Azure/Orchard.Azure.Web/Themes/
-src/Orchard.Azure/Orchard.Azure.CloudService/csx/Debug/*
-src/Orchard.Web/Orchard.Web.Publish.xml
+src/Coevery.Azure/Coevery.Azure.Web/Core/
+src/Coevery.Azure/Coevery.Azure.Web/Modules/
+src/Coevery.Azure/Coevery.Azure.Web/Themes/
+src/Coevery.Azure/Coevery.Azure.CloudService/csx/Debug/*
+src/Coevery.Web/Coevery.Web.Publish.xml
 src/TestResults/*
-src/Orchard.Web/Properties/PublishProfiles
-src/Orchard.Azure/Orchard.Azure.CloudService/Staging/
+src/Coevery.Web/Properties/PublishProfiles
+src/Coevery.Azure/Coevery.Azure.CloudService/Staging/
 
 #enable all /lib artifacts
 !lib/*/*.*
-src/Orchard.Web/App_Data/Sites/Default/mappings.bin
-src/Orchard.Web/App_Data/Sites/Default/Orchard.sdf
+src/Coevery.Web/App_Data/Sites/Default/mappings.bin
+src/Coevery.Web/App_Data/Sites/Default/Coevery.sdf

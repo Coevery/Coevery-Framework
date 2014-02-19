@@ -1,0 +1,12 @@
+﻿Name: Coevery.Home
+AntiForgery: enabled
+Author: zhong_zhaofeng (http://zhongzf.cnblogs.com)
+Website: https://Coeveryoracle.codeplex.com
+Version: 0.1
+CoeveryVersion: 1.7
+Description: Coevery Home
+Dependencies:
+Features:
+    Coevery.Home:
+        Description: Coevery.Home.
+		Category: Home

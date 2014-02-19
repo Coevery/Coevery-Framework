@@ -45,10 +45,10 @@ List: ul|ol + li*
 Content (a single content item)
 .Zones (meta-property)
 .ContentItem (clr object)
-.Path (from Orchard.Core.Routable(.Handlers.RoutePartHandler))
-.Slug (*necessary?* from Orchard.Core.Routable(.Handlers.RoutePartHandler))
-.Title (from Orchard.Core.Routable(.Handlers.RoutePartHandler))
-.Description (from Orchard.Blogs(.Handlers.BlogPartHandler))
+.Path (from Coevery.Core.Routable(.Handlers.RoutePartHandler))
+.Slug (*necessary?* from Coevery.Core.Routable(.Handlers.RoutePartHandler))
+.Title (from Coevery.Core.Routable(.Handlers.RoutePartHandler))
+.Description (from Coevery.Blogs(.Handlers.BlogPartHandler))
 
 PlaceChildContent
 .Source (another shape, presumed rendered)

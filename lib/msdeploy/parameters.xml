@@ -1,20 +1,20 @@
 ﻿<parameters>
 	<!-- Prompts where to copy the content files and takes a web site path (such as "contoso.com/app") -->
-	<parameter name="Application Path" description="Full site path where you would like to install your application (i.e., Default Web Site/orchard)" defaultValue="Default Web Site/orchard" tags="iisapp">
-		<parameterEntry type="ProviderPath" scope="iisapp" match="Orchard" />
+	<parameter name="Application Path" description="Full site path where you would like to install your application (i.e., Default Web Site/Coevery)" defaultValue="Default Web Site/Coevery" tags="iisapp">
+		<parameterEntry type="ProviderPath" scope="iisapp" match="Coevery" />
 	</parameter>
 
 	<!-- This is the parameter that is used to set ACLs, it's set to the application path filled in by the user -->
 	<parameter name="SetAclParameter1" description="Hidden - automatically sets write access for the app" defaultValue="{Application Path}/App_Data" tags="Hidden">
-		<parameterEntry type="ProviderPath" scope="setAcl" match="Orchard/App_Data" /> 
+		<parameterEntry type="ProviderPath" scope="setAcl" match="Coevery/App_Data" /> 
 	</parameter>
 
 	<parameter name="SetAclParameter2" description="Hidden - automatically sets write access for the app" defaultValue="{Application Path}/Media" tags="Hidden">
-		<parameterEntry type="ProviderPath" scope="setAcl" match="Orchard/Media" /> 
+		<parameterEntry type="ProviderPath" scope="setAcl" match="Coevery/Media" /> 
 	</parameter>
 
 	<parameter name="SetAclParameter3" description="Hidden - automatically sets write access for the app" defaultValue="{Application Path}/bin/HostRestart" tags="Hidden">
-		<parameterEntry type="ProviderPath" scope="setAcl" match="Orchard/bin/HostRestart" /> 
+		<parameterEntry type="ProviderPath" scope="setAcl" match="Coevery/bin/HostRestart" /> 
 	</parameter>
 
        	<!-- Prompts for database server name, this is used in the connection string parameter later -->
@@ -22,13 +22,13 @@
 	</parameter>
 
 	<!-- Prompts for the database name and fills it into the database scripts -->
-	<parameter name="Database Name" description="Name of the database for Orchard." defaultValue="orchard" tags="SQL, dbName">
+	<parameter name="Database Name" description="Name of the database for Coevery." defaultValue="Coevery" tags="SQL, dbName">
 		<parameterEntry type="TextFile" scope="install.sql" match="PlaceHolderForDb" />
 	</parameter>	
 
         <!-- Prompts for the database username and fills it into the database scripts.
 	The SQL tag indicates it is a parameter required for SQL, the DbUsername tag indicates this is a Db username -->
-	<parameter name="Database Username" description="User name to access you application database." defaultValue="orcharduser" tags="SQL, DbUsername">
+	<parameter name="Database Username" description="User name to access you application database." defaultValue="Coeveryuser" tags="SQL, DbUsername">
 		<parameterEntry type="TextFile" scope="install.sql" match="PlaceHolderForUser" />
 	</parameter>
 
@@ -61,7 +61,7 @@
 	defaultValue="Data Source={Database Server};Initial Catalog={Database Name};User Id={Database Username};Password={Database Password}">
 	</parameter>
 	
-	<parameter name="Orchard Connection String" friendlyName="Orchard Connection String" description="Orchard SQL Data Connection String Setting" defaultValue="" tags="Sql, SqlCE, SingleLineConnectionString, Hidden">
+	<parameter name="Coevery Connection String" friendlyName="Coevery Connection String" description="Coevery SQL Data Connection String Setting" defaultValue="" tags="Sql, SqlCE, SingleLineConnectionString, Hidden">
 		<parameterEntry kind="TextFile" scope="\\Settings\.txt$" match="(?&lt;=\s*DataConnectionString:\s+)[^\s].*[^\r\n]" /> 
 	</parameter>	
 </parameters>

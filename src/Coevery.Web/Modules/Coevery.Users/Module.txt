@@ -1,0 +1,12 @@
+﻿Name: Users
+AntiForgery: enabled
+Author: The Coevery Team
+Website: http://Coeveryproject.net
+Version: 1.8
+CoeveryVersion: 1.8
+Description: The users module enables user management.
+Features:
+	Coevery.Users:
+		Description: Standard users.
+		Category: Core
+		Dependencies: Settings
