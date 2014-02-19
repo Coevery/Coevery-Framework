@@ -77,9 +77,7 @@
     <Compile Include="RecipeHandlers\FeatureRecipeHandler.cs" />
     <Compile Include="RecipeHandlers\MetadataRecipeHandler.cs" />
     <Compile Include="RecipeHandlers\MigrationRecipeHandler.cs" />
-    <Compile Include="RecipeHandlers\ModuleRecipeHandler.cs" />
     <Compile Include="RecipeHandlers\SettingsRecipeHandler.cs" />
-    <Compile Include="RecipeHandlers\ThemeRecipeHandler.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="Services\RecipeHarvester.cs" />
     <Compile Include="Services\RecipeJournalManager.cs" />
@@ -93,18 +91,6 @@
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
       <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
       <Name>Orchard.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Tools\Orchard\Orchard.csproj">
-      <Project>{33B1BC8D-E292-4972-A363-22056B207156}</Project>
-      <Name>Orchard</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Orchard.Packaging\Orchard.Packaging.csproj">
-      <Project>{DFD137A2-DDB5-4D22-BE0D-FA9AD4C8B059}</Project>
-      <Name>Orchard.Packaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Orchard.Themes\Orchard.Themes.csproj">
-      <Project>{CDE24A24-01D3-403C-84B9-37722E18DFB7}</Project>
-      <Name>Orchard.Themes</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
