@@ -10,7 +10,7 @@ namespace Orchard.Users.ViewModels {
     }
 
     public class UserEntry {
-        public UserPartRecord User { get; set; }
+        public UserRecord User { get; set; }
         public bool IsChecked { get; set; }
     }
 

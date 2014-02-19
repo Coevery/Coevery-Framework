@@ -133,22 +133,22 @@ namespace Orchard.Users.Controllers {
             if (ValidateRegistration(userName, email, password, confirmPassword)) {
                 // Attempt to register the user
                 // No need to report this to IUserEventHandler because _membershipService does that for us
-                var user = _membershipService.CreateUser(new CreateUserParams(userName, password, email, null, null, false));
+                var user = (UserRecord)_membershipService.CreateUser(new CreateUserParams(userName, password, email, null, null, false));
 
                 if (user != null) {
-                    if ( user.As<UserPart>().EmailStatus == UserStatus.Pending ) {
+                    if ( user.EmailStatus == UserStatus.Pending ) {
                         var siteUrl = _orchardServices.WorkContext.CurrentSite.BaseUrl;
                         if(String.IsNullOrWhiteSpace(siteUrl)) {
                             siteUrl = HttpContext.Request.ToRootUrlString();
                         }
 
-                        _userService.SendChallengeEmail(user.As<UserPart>(), nonce => Url.MakeAbsolute(Url.Action("ChallengeEmail", "Account", new {Area = "Orchard.Users", nonce = nonce}), siteUrl));
+                        _userService.SendChallengeEmail(user, nonce => Url.MakeAbsolute(Url.Action("ChallengeEmail", "Account", new {Area = "Orchard.Users", nonce = nonce}), siteUrl));
 
                         _userEventHandler.SentChallengeEmail(user);
                         return RedirectToAction("ChallengeEmailSent");
                     }
 
-                    if (user.As<UserPart>().RegistrationStatus == UserStatus.Pending) {
+                    if (user.RegistrationStatus == UserStatus.Pending) {
                         return RedirectToAction("RegistrationPending");
                     }
 
@@ -362,7 +362,7 @@ namespace Orchard.Users.Controllers {
                 ModelState.AddModelError("email", T("You must specify an email address."));
                 validate = false;
             }
-            else if (!Regex.IsMatch(email, UserPart.EmailPattern, RegexOptions.IgnoreCase)) {
+            else if (!Regex.IsMatch(email, UserRecord.EmailPattern, RegexOptions.IgnoreCase)) {
                 // http://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx    
                 ModelState.AddModelError("email", T("You must specify a valid email address."));
                 validate = false;
