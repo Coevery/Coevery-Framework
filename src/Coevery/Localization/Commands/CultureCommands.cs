@@ -6,11 +6,11 @@ using Coevery.Localization.Services;
 namespace Coevery.Localization.Commands {
     public class CultureCommands : DefaultCoeveryCommandHandler {
         private readonly ICultureManager _cultureManager;
-        private readonly ICoeveryServices _CoeveryServices;
+        private readonly ICoeveryServices _coeveryServices;
 
-        public CultureCommands(ICultureManager cultureManager, ICoeveryServices CoeveryServices) {
+        public CultureCommands(ICultureManager cultureManager, ICoeveryServices coeveryServices) {
             _cultureManager = cultureManager;
-            _CoeveryServices = CoeveryServices;
+            _coeveryServices = coeveryServices;
         }
 
         [CommandHelp("cultures list \r\n\t" + "List site cultures")]
@@ -27,7 +27,7 @@ namespace Coevery.Localization.Commands {
         [CommandHelp("cultures get site culture \r\n\t" + "Get culture for the site")]
         [CommandName("cultures get site culture")]
         public void GetSiteCulture() {
-            Context.Output.WriteLine(T("Site Culture is {0}", _CoeveryServices.WorkContext.CurrentSite.SiteCulture));
+            Context.Output.WriteLine(T("Site Culture is {0}", _coeveryServices.WorkContext.CurrentSite.SiteCulture));
         }
 
         [CommandHelp("cultures set site culture <culture-name> \r\n\t" + "Set culture for the site")]
@@ -41,7 +41,7 @@ namespace Coevery.Localization.Commands {
             }
 
             _cultureManager.AddCulture(cultureName); 
-            _CoeveryServices.WorkContext.CurrentSite.SiteCulture = cultureName;
+            _coeveryServices.WorkContext.CurrentSite.SiteCulture = cultureName;
 
             Context.Output.WriteLine(T("Site culture set to {0} successfully", cultureName));
         }

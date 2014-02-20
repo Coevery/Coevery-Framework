@@ -9,7 +9,7 @@
                 if ($.Coevery.___doCookiePathHack != null) {
                     return $.Coevery.___doCookiePathHack;
                 }
-                var testCookie = "__Coevery__";
+                var testCookie = "__coevery__";
                 $.cookie(testCookie, "1", { path: path });
                 $.Coevery.___doCookiePathHack = !$.cookie(testCookie);
                 $.cookie(testCookie, null);

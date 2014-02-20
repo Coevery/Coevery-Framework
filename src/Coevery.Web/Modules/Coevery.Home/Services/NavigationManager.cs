@@ -19,7 +19,7 @@ namespace Coevery.Core.Navigation.Services {
         private readonly IAuthorizationService _authorizationService;
         private readonly IEnumerable<INavigationFilter> _navigationFilters;
         private readonly UrlHelper _urlHelper;
-        private readonly ICoeveryServices _CoeveryServices;
+        private readonly ICoeveryServices _coeveryServices;
         private readonly ShellSettings _shellSettings;
 
         public NavigationManager(
@@ -28,14 +28,14 @@ namespace Coevery.Core.Navigation.Services {
             IAuthorizationService authorizationService,
             IEnumerable<INavigationFilter> navigationFilters,
             UrlHelper urlHelper, 
-            ICoeveryServices CoeveryServices,
+            ICoeveryServices coeveryServices,
             ShellSettings shellSettings) {
             _navigationProviders = navigationProviders;
             _menuProviders = menuProviders;
             _authorizationService = authorizationService;
             _navigationFilters = navigationFilters;
             _urlHelper = urlHelper;
-            _CoeveryServices = CoeveryServices;
+            _coeveryServices = coeveryServices;
             _shellSettings = shellSettings;
             Logger = NullLogger.Instance;
         }
@@ -44,19 +44,19 @@ namespace Coevery.Core.Navigation.Services {
 
         public IEnumerable<MenuItem> BuildMenu(string menuName) {
             var sources = GetSources(menuName);
-            var hasDebugShowAllMenuItems = _authorizationService.TryCheckAccess(Permission.Named("DebugShowAllMenuItems"), _CoeveryServices.WorkContext.CurrentUser, null);
+            var hasDebugShowAllMenuItems = _authorizationService.TryCheckAccess(Permission.Named("DebugShowAllMenuItems"), _coeveryServices.WorkContext.CurrentUser, null);
             return FinishMenu(Reduce(Merge(sources), menuName == "admin", hasDebugShowAllMenuItems).ToArray());
         }
 
         public IEnumerable<MenuItem> BuildMenu(IContent menu) {
             var sources = GetSources(menu);
-            var hasDebugShowAllMenuItems = _authorizationService.TryCheckAccess(Permission.Named("DebugShowAllMenuItems"), _CoeveryServices.WorkContext.CurrentUser, null);
+            var hasDebugShowAllMenuItems = _authorizationService.TryCheckAccess(Permission.Named("DebugShowAllMenuItems"), _coeveryServices.WorkContext.CurrentUser, null);
             return FinishMenu(Reduce(Arrange(Filter(Merge(sources))), false, hasDebugShowAllMenuItems).ToArray());
         }
 
         public string GetNextPosition(IContent menu) {
             var sources = GetSources(menu);
-            var hasDebugShowAllMenuItems = _authorizationService.TryCheckAccess(Permission.Named("DebugShowAllMenuItems"), _CoeveryServices.WorkContext.CurrentUser, null);
+            var hasDebugShowAllMenuItems = _authorizationService.TryCheckAccess(Permission.Named("DebugShowAllMenuItems"), _coeveryServices.WorkContext.CurrentUser, null);
             return Position.GetNext(Reduce(Arrange(Filter(Merge(sources))), false, hasDebugShowAllMenuItems).ToArray());
         }
 
@@ -120,7 +120,7 @@ namespace Coevery.Core.Navigation.Services {
                 // or user has permission (either based on the linked item or global, if there's no linked item)
                 item.Permissions.Any(x => _authorizationService.TryCheckAccess(
                     x, 
-                    _CoeveryServices.WorkContext.CurrentUser, 
+                    _coeveryServices.WorkContext.CurrentUser, 
                     item.Content == null || isAdminMenu ? null : item.Content))))
             {
                 item.Items = Reduce(item.Items, isAdminMenu, hasDebugShowAllMenuItems);

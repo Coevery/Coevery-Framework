@@ -62,7 +62,6 @@ namespace Coevery.Setup.Controllers {
             //
 
             return IndexViewResult(new SetupViewModel {
-                AdminUsername = "admin",
                 DatabaseIsPreconfigured = !string.IsNullOrEmpty(initialSettings.DataProvider),
                 Recipes = recipes,
                 RecipeDescription = recipeDescription
@@ -79,10 +78,6 @@ namespace Coevery.Setup.Controllers {
             // if no builtin provider, a connection string is mandatory
             if (model.DatabaseProvider != SetupDatabaseType.Builtin && string.IsNullOrEmpty(model.DatabaseConnectionString))
                 ModelState.AddModelError("DatabaseConnectionString", T("A connection string is required").Text);
-
-            if (!String.IsNullOrWhiteSpace(model.ConfirmPassword) && model.AdminPassword != model.ConfirmPassword ) {
-                ModelState.AddModelError("ConfirmPassword", T("Password confirmation must match").Text);
-            }
 
             if (model.DatabaseProvider != SetupDatabaseType.Builtin && !String.IsNullOrWhiteSpace(model.DatabaseTablePrefix)) {
                 model.DatabaseTablePrefix = model.DatabaseTablePrefix.Trim();
@@ -135,8 +130,6 @@ namespace Coevery.Setup.Controllers {
 
                 var setupContext = new SetupContext {
                     SiteName = model.SiteName,
-                    AdminUsername = model.AdminUsername,
-                    AdminPassword = model.AdminPassword,
                     DatabaseProvider = providerName,
                     DatabaseConnectionString = model.DatabaseConnectionString,
                     DatabaseTablePrefix = model.DatabaseTablePrefix,

@@ -11,13 +11,13 @@ using Coevery.Logging;
 namespace Coevery.Environment.State {
     public class DefaultProcessingEngine : Component, IProcessingEngine {
         private readonly IShellContextFactory _shellContextFactory;
-        private readonly Func<ICoeveryHost> _CoeveryHost;
+        private readonly Func<ICoeveryHost> _coeveryHost;
 
         private readonly ContextState<IList<Entry>> _entries;
 
-        public DefaultProcessingEngine(IShellContextFactory shellContextFactory, Func<ICoeveryHost> CoeveryHost) {
+        public DefaultProcessingEngine(IShellContextFactory shellContextFactory, Func<ICoeveryHost> coeveryHost) {
             _shellContextFactory = shellContextFactory;
-            _CoeveryHost = CoeveryHost;
+            _coeveryHost = coeveryHost;
 
             _entries = new ContextState<IList<Entry>>("DefaultProcessingEngine.Entries", () => new List<Entry>());
         }
@@ -70,7 +70,7 @@ namespace Coevery.Environment.State {
             // Force reloading extensions if there were extensions installed
             // See http://Coevery.codeplex.com/workitem/17465
             if (entry.MessageName == "IRecipeSchedulerEventHandler.ExecuteWork") {
-                var ctx = _CoeveryHost().GetShellContext(entry.ShellSettings);
+                var ctx = _coeveryHost().GetShellContext(entry.ShellSettings);
             }
 
             var shellContext = _shellContextFactory.CreateDescribedContext(entry.ShellSettings, entry.ShellDescriptor);

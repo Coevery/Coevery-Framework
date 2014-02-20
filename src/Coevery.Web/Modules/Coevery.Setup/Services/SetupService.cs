@@ -29,7 +29,7 @@ using Coevery.Utility.Extensions;
 namespace Coevery.Setup.Services {
     public class SetupService : ISetupService {
         private readonly ShellSettings _shellSettings;
-        private readonly ICoeveryHost _CoeveryHost;
+        private readonly ICoeveryHost _coeveryHost;
         private readonly IShellSettingsManager _shellSettingsManager;
         private readonly IShellContainerFactory _shellContainerFactory;
         private readonly ICompositionStrategy _compositionStrategy;
@@ -39,14 +39,14 @@ namespace Coevery.Setup.Services {
 
         public SetupService(
             ShellSettings shellSettings,
-            ICoeveryHost CoeveryHost,
+            ICoeveryHost coeveryHost,
             IShellSettingsManager shellSettingsManager,
             IShellContainerFactory shellContainerFactory,
             ICompositionStrategy compositionStrategy,
             IProcessingEngine processingEngine,
             IRecipeHarvester recipeHarvester) {
             _shellSettings = shellSettings;
-            _CoeveryHost = CoeveryHost;
+            _coeveryHost = coeveryHost;
             _shellSettingsManager = shellSettingsManager;
             _shellContainerFactory = shellContainerFactory;
             _compositionStrategy = compositionStrategy;
@@ -158,7 +158,7 @@ namespace Coevery.Setup.Services {
 
             // must mark state as Running - otherwise standalone enviro is created "for setup"
             shellSettings.State = TenantState.Running;
-            using (var environment = _CoeveryHost.CreateStandaloneEnvironment(shellSettings)) {
+            using (var environment = _coeveryHost.CreateStandaloneEnvironment(shellSettings)) {
                 try {
                     executionId = CreateTenantData(context, environment);
                 }

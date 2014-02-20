@@ -1,21 +1,22 @@
 using System.ComponentModel.DataAnnotations;
 using Coevery.ContentManagement;
+using Coevery.Security;
 using Coevery.Users.Models;
 
 namespace Coevery.Users.ViewModels {
     public class UserEditViewModel  {
         [Required]
         public string UserName {
-            get { return User.As<UserPart>().UserName; }
-            set { User.As<UserPart>().UserName = value; }
+            get { return User.UserName; }
+            set { User.UserName = value; }
         }
 
         [Required]
         public string Email {
-            get { return User.As<UserPart>().Email; }
-            set { User.As<UserPart>().Email = value; }
+            get { return User.Email; }
+            set { User.Email = value; }
         }
 
-        public IContent User { get; set; }
+        public UserRecord User { get; set; }
     }
 }

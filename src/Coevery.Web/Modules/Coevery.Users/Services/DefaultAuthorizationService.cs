@@ -8,7 +8,7 @@ using Coevery.ContentManagement;
 using Coevery.Security;
 using Coevery.Security.Permissions;
 
-namespace Coevery.Roles.Services {
+namespace Coevery.Users.Services {
     [UsedImplicitly]
     public class DefaultAuthorizationService : IAuthorizationService {
         public void CheckAccess(Permission permission, IUser user, IContent content) {}

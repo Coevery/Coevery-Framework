@@ -10,11 +10,11 @@ using Coevery.Recipes.Services;
 
 namespace Coevery.Recipes.RecipeHandlers {
     public class DataRecipeHandler : IRecipeHandler {
-        private readonly ICoeveryServices _CoeveryServices;
+        private readonly ICoeveryServices _coeveryServices;
         private readonly ITransactionManager _transactionManager;
 
-        public DataRecipeHandler(ICoeveryServices CoeveryServices, ITransactionManager transactionManager) {
-            _CoeveryServices = CoeveryServices;
+        public DataRecipeHandler(ICoeveryServices coeveryServices, ITransactionManager transactionManager) {
+            _coeveryServices = coeveryServices;
             _transactionManager = transactionManager;
             Logger = NullLogger.Instance;
             T = NullLocalizer.Instance;
@@ -30,7 +30,7 @@ namespace Coevery.Recipes.RecipeHandlers {
                 return;
             }
 
-            var importContentSession = new ImportContentSession(_CoeveryServices.ContentManager);
+            var importContentSession = new ImportContentSession(_coeveryServices.ContentManager);
 
             // Populate local dictionary with elements and their ids
             var elementDictionary = CreateElementDictionary(recipeContext.RecipeStep.Step);
@@ -54,7 +54,7 @@ namespace Coevery.Recipes.RecipeHandlers {
                     //so that dependencies can be managed within the same transaction
                     nextIdentity = importContentSession.GetNextInBatch();
                     while (nextIdentity != null) {
-                        _CoeveryServices.ContentManager.Import(elementDictionary[nextIdentity], importContentSession);
+                        _coeveryServices.ContentManager.Import(elementDictionary[nextIdentity], importContentSession);
                         nextIdentity = importContentSession.GetNextInBatch();
                     }
 
@@ -62,7 +62,7 @@ namespace Coevery.Recipes.RecipeHandlers {
 
                     //Create a new transaction for each batch
                     if (startIndex < elementDictionary.Count) {
-                        _CoeveryServices.ContentManager.Clear();
+                        _coeveryServices.ContentManager.Clear();
                         _transactionManager.RequireNew();
                     }
                 }

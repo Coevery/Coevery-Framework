@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web.Security;
 using JetBrains.Annotations;
+using Coevery.Data;
 using Coevery.DisplayManagement;
 using Coevery.Localization;
 using Coevery.Logging;
@@ -18,27 +19,30 @@ using Coevery.Services;
 namespace Coevery.Users.Services {
     [UsedImplicitly]
     public class MembershipService : IMembershipService {
-        private readonly ICoeveryServices _CoeveryServices;
+        private readonly ICoeveryServices _orchardServices;
         private readonly IMessageService _messageService;
         private readonly IEnumerable<IUserEventHandler> _userEventHandlers;
         private readonly IEncryptionService _encryptionService;
         private readonly IShapeFactory _shapeFactory;
         private readonly IShapeDisplay _shapeDisplay;
+        private readonly IRepository<UserRecord> _userRecordRepository;
 
         public MembershipService(
-            ICoeveryServices CoeveryServices, 
-            IMessageService messageService, 
-            IEnumerable<IUserEventHandler> userEventHandlers, 
-            IClock clock, 
+            ICoeveryServices orchardServices,
+            IMessageService messageService,
+            IEnumerable<IUserEventHandler> userEventHandlers,
+            IClock clock,
             IEncryptionService encryptionService,
             IShapeFactory shapeFactory,
-            IShapeDisplay shapeDisplay) {
-            _CoeveryServices = CoeveryServices;
+            IShapeDisplay shapeDisplay, 
+            IRepository<UserRecord> userRecordRepository) {
+            _orchardServices = orchardServices;
             _messageService = messageService;
             _userEventHandlers = userEventHandlers;
             _encryptionService = encryptionService;
             _shapeFactory = shapeFactory;
             _shapeDisplay = shapeDisplay;
+            _userRecordRepository = userRecordRepository;
             Logger = NullLogger.Instance;
             T = NullLocalizer.Instance;
         }
@@ -55,53 +59,53 @@ namespace Coevery.Users.Services {
         public IUser CreateUser(CreateUserParams createUserParams) {
             Logger.Information("CreateUser {0} {1}", createUserParams.Username, createUserParams.Email);
 
-            var registrationSettings = _CoeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
+            var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
-            var user = _CoeveryServices.ContentManager.New<UserPart>("User");
+            var user = new UserRecord();
 
-            user.Record.UserName = createUserParams.Username;
-            user.Record.Email = createUserParams.Email;
-            user.Record.NormalizedUserName = createUserParams.Username.ToLowerInvariant();
-            user.Record.HashAlgorithm = "SHA1";
+            user.UserName = createUserParams.Username;
+            user.Email = createUserParams.Email;
+            user.NormalizedUserName = createUserParams.Username.ToLowerInvariant();
+            user.HashAlgorithm = "SHA1";
             SetPassword(user, createUserParams.Password);
 
-            if ( registrationSettings != null ) {
-                user.Record.RegistrationStatus = registrationSettings.UsersAreModerated ? UserStatus.Pending : UserStatus.Approved;
-                user.Record.EmailStatus = registrationSettings.UsersMustValidateEmail ? UserStatus.Pending : UserStatus.Approved;
+            if (registrationSettings != null) {
+                user.RegistrationStatus = registrationSettings.UsersAreModerated ? UserStatus.Pending : UserStatus.Approved;
+                user.EmailStatus = registrationSettings.UsersMustValidateEmail ? UserStatus.Pending : UserStatus.Approved;
             }
 
-            if(createUserParams.IsApproved) {
-                user.Record.RegistrationStatus = UserStatus.Approved;
-                user.Record.EmailStatus = UserStatus.Approved;
+            if (createUserParams.IsApproved) {
+                user.RegistrationStatus = UserStatus.Approved;
+                user.EmailStatus = UserStatus.Approved;
             }
 
             var userContext = new UserContext {User = user, Cancel = false, UserParameters = createUserParams};
-            foreach(var userEventHandler in _userEventHandlers) {
+            foreach (var userEventHandler in _userEventHandlers) {
                 userEventHandler.Creating(userContext);
             }
 
-            if(userContext.Cancel) {
+            if (userContext.Cancel) {
                 return null;
             }
 
-            _CoeveryServices.ContentManager.Create(user);
+            _userRecordRepository.Create(user);
 
-            foreach ( var userEventHandler in _userEventHandlers ) {
+            foreach (var userEventHandler in _userEventHandlers) {
                 userEventHandler.Created(userContext);
                 if (user.RegistrationStatus == UserStatus.Approved) {
                     userEventHandler.Approved(user);
                 }
             }
 
-            if ( registrationSettings != null  
-                && registrationSettings.UsersAreModerated 
-                && registrationSettings.NotifyModeration 
-                && !createUserParams.IsApproved ) {
+            if (registrationSettings != null
+                && registrationSettings.UsersAreModerated
+                && registrationSettings.NotifyModeration
+                && !createUserParams.IsApproved) {
                 var usernames = String.IsNullOrWhiteSpace(registrationSettings.NotificationsRecipients)
-                                    ? new string[0]
-                                    : registrationSettings.NotificationsRecipients.Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
+                    ? new string[0]
+                    : registrationSettings.NotificationsRecipients.Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
 
-                foreach ( var userName in usernames ) {
+                foreach (var userName in usernames) {
                     if (String.IsNullOrWhiteSpace(userName)) {
                         continue;
                     }
@@ -113,7 +117,7 @@ namespace Coevery.Users.Services {
                         var parameters = new Dictionary<string, object> {
                             {"Subject", T("New account").Text},
                             {"Body", _shapeDisplay.Display(template)},
-                            {"Recipients", new [] { recipient.Email }}
+                            {"Recipients", new[] {recipient.Email}}
                         };
 
                         _messageService.Send("Email", parameters);
@@ -127,77 +131,77 @@ namespace Coevery.Users.Services {
         public IUser GetUser(string username) {
             var lowerName = username == null ? "" : username.ToLowerInvariant();
 
-            return _CoeveryServices.ContentManager.Query<UserPart, UserPartRecord>().Where(u => u.NormalizedUserName == lowerName).List().FirstOrDefault();
+            return _userRecordRepository.Table.Where(u => u.NormalizedUserName == lowerName).ToList().FirstOrDefault();
         }
 
         public IUser ValidateUser(string userNameOrEmail, string password) {
             var lowerName = userNameOrEmail == null ? "" : userNameOrEmail.ToLowerInvariant();
 
-            var user = _CoeveryServices.ContentManager.Query<UserPart, UserPartRecord>().Where(u => u.NormalizedUserName == lowerName).List().FirstOrDefault();
+            var user = _userRecordRepository.Table.Where(u => u.NormalizedUserName == lowerName).ToList().FirstOrDefault();
 
             if (user == null)
-                user = _CoeveryServices.ContentManager.Query<UserPart, UserPartRecord>().Where(u => u.Email == lowerName).List().FirstOrDefault();
+                user = _userRecordRepository.Table.Where(u => u.Email == lowerName).ToList().FirstOrDefault();
 
-            if ( user == null || ValidatePassword(user.As<UserPart>(), password) == false )
+            if (user == null || ValidatePassword(user, password) == false)
                 return null;
 
-            if ( user.EmailStatus != UserStatus.Approved )
+            if (user.EmailStatus != UserStatus.Approved)
                 return null;
 
-            if ( user.RegistrationStatus != UserStatus.Approved )
+            if (user.RegistrationStatus != UserStatus.Approved)
                 return null;
 
             return user;
         }
 
         public void SetPassword(IUser user, string password) {
-            if (!user.Is<UserPart>())
+            if (!(user is UserRecord))
                 throw new InvalidCastException();
 
-            var userPart = user.As<UserPart>();
+            var useRecord = user as UserRecord;
 
             switch (GetSettings().PasswordFormat) {
                 case MembershipPasswordFormat.Clear:
-                    SetPasswordClear(userPart, password);
+                    SetPasswordClear(useRecord, password);
                     break;
                 case MembershipPasswordFormat.Hashed:
-                    SetPasswordHashed(userPart, password);
+                    SetPasswordHashed(useRecord, password);
                     break;
                 case MembershipPasswordFormat.Encrypted:
-                    SetPasswordEncrypted(userPart, password);
+                    SetPasswordEncrypted(useRecord, password);
                     break;
                 default:
                     throw new ApplicationException(T("Unexpected password format value").ToString());
             }
         }
 
-        private bool ValidatePassword(UserPart userPart, string password) {
+        private bool ValidatePassword(UserRecord userRecord, string password) {
             // Note - the password format stored with the record is used
             // otherwise changing the password format on the site would invalidate
             // all logins
-            switch (userPart.PasswordFormat) {
+            switch (userRecord.PasswordFormat) {
                 case MembershipPasswordFormat.Clear:
-                    return ValidatePasswordClear(userPart, password);
+                    return ValidatePasswordClear(userRecord, password);
                 case MembershipPasswordFormat.Hashed:
-                    return ValidatePasswordHashed(userPart, password);
+                    return ValidatePasswordHashed(userRecord, password);
                 case MembershipPasswordFormat.Encrypted:
-                    return ValidatePasswordEncrypted(userPart, password);
+                    return ValidatePasswordEncrypted(userRecord, password);
                 default:
                     throw new ApplicationException("Unexpected password format value");
             }
         }
 
-        private static void SetPasswordClear(UserPart userPart, string password) {
-            userPart.PasswordFormat = MembershipPasswordFormat.Clear;
-            userPart.Password = password;
-            userPart.PasswordSalt = null;
+        private static void SetPasswordClear(UserRecord userRecord, string password) {
+            userRecord.PasswordFormat = MembershipPasswordFormat.Clear;
+            userRecord.Password = password;
+            userRecord.PasswordSalt = null;
         }
 
-        private static bool ValidatePasswordClear(UserPart userPart, string password) {
-            return userPart.Password == password;
+        private static bool ValidatePasswordClear(UserRecord userRecord, string password) {
+            return userRecord.Password == password;
         }
 
-        private static void SetPasswordHashed(UserPart userPart, string password) {
+        private static void SetPasswordHashed(UserRecord userRecord, string password) {
 
             var saltBytes = new byte[0x10];
             using (var random = new RNGCryptoServiceProvider()) {
@@ -209,39 +213,39 @@ namespace Coevery.Users.Services {
             var combinedBytes = saltBytes.Concat(passwordBytes).ToArray();
 
             byte[] hashBytes;
-            using (var hashAlgorithm = HashAlgorithm.Create(userPart.HashAlgorithm)) {
+            using (var hashAlgorithm = HashAlgorithm.Create(userRecord.HashAlgorithm)) {
                 hashBytes = hashAlgorithm.ComputeHash(combinedBytes);
             }
 
-            userPart.PasswordFormat = MembershipPasswordFormat.Hashed;
-            userPart.Password = Convert.ToBase64String(hashBytes);
-            userPart.PasswordSalt = Convert.ToBase64String(saltBytes);
+            userRecord.PasswordFormat = MembershipPasswordFormat.Hashed;
+            userRecord.Password = Convert.ToBase64String(hashBytes);
+            userRecord.PasswordSalt = Convert.ToBase64String(saltBytes);
         }
 
-        private static bool ValidatePasswordHashed(UserPart userPart, string password) {
+        private static bool ValidatePasswordHashed(UserRecord userRecord, string password) {
 
-            var saltBytes = Convert.FromBase64String(userPart.PasswordSalt);
+            var saltBytes = Convert.FromBase64String(userRecord.PasswordSalt);
 
             var passwordBytes = Encoding.Unicode.GetBytes(password);
 
             var combinedBytes = saltBytes.Concat(passwordBytes).ToArray();
 
             byte[] hashBytes;
-            using (var hashAlgorithm = HashAlgorithm.Create(userPart.HashAlgorithm)) {
+            using (var hashAlgorithm = HashAlgorithm.Create(userRecord.HashAlgorithm)) {
                 hashBytes = hashAlgorithm.ComputeHash(combinedBytes);
             }
 
-            return userPart.Password == Convert.ToBase64String(hashBytes);
+            return userRecord.Password == Convert.ToBase64String(hashBytes);
         }
 
-        private void SetPasswordEncrypted(UserPart userPart, string password) {
-            userPart.Password = Convert.ToBase64String(_encryptionService.Encode(Encoding.UTF8.GetBytes(password)));
-            userPart.PasswordSalt = null;
-            userPart.PasswordFormat = MembershipPasswordFormat.Encrypted;
+        private void SetPasswordEncrypted(UserRecord userRecord, string password) {
+            userRecord.Password = Convert.ToBase64String(_encryptionService.Encode(Encoding.UTF8.GetBytes(password)));
+            userRecord.PasswordSalt = null;
+            userRecord.PasswordFormat = MembershipPasswordFormat.Encrypted;
         }
 
-        private bool ValidatePasswordEncrypted(UserPart userPart, string password) {
-            return String.Equals(password, Encoding.UTF8.GetString(_encryptionService.Decode(Convert.FromBase64String(userPart.Password))), StringComparison.Ordinal);
+        private bool ValidatePasswordEncrypted(UserRecord userRecord, string password) {
+            return String.Equals(password, Encoding.UTF8.GetString(_encryptionService.Decode(Convert.FromBase64String(userRecord.Password))), StringComparison.Ordinal);
         }
     }
 }

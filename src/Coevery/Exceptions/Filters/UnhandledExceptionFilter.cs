@@ -11,15 +11,15 @@ using IFilterProvider = Coevery.Mvc.Filters.IFilterProvider;
 namespace Coevery.Exceptions.Filters {
     public class UnhandledExceptionFilter : FilterProvider, IActionFilter {
         private readonly IExceptionPolicy _exceptionPolicy;
-        private readonly ICoeveryServices _CoeveryServices;
+        private readonly ICoeveryServices _coeveryServices;
         private readonly Lazy<IEnumerable<IFilterProvider>> _filterProviders;
 
         public UnhandledExceptionFilter(
             IExceptionPolicy exceptionPolicy,
-            ICoeveryServices CoeveryServices,
+            ICoeveryServices coeveryServices,
             Lazy<IEnumerable<IFilterProvider>> filters) {
             _exceptionPolicy = exceptionPolicy;
-            _CoeveryServices = CoeveryServices;
+            _coeveryServices = coeveryServices;
             _filterProviders = filters;
             Logger = NullLogger.Instance;
         }
@@ -35,7 +35,7 @@ namespace Coevery.Exceptions.Filters {
             if(!filterContext.ActionDescriptor.GetCustomAttributes(typeof(HandleErrorAttribute), false).Any()) {
                 if (!filterContext.ExceptionHandled && filterContext.Exception != null) {
                     if (_exceptionPolicy.HandleException(this, filterContext.Exception)) {
-                        var shape = _CoeveryServices.New.ErrorPage();
+                        var shape = _coeveryServices.New.ErrorPage();
                         shape.Message = filterContext.Exception.Message;
                         shape.Exception = filterContext.Exception;
 
@@ -62,7 +62,7 @@ namespace Coevery.Exceptions.Filters {
             }
 
             if (filterContext.Result is HttpNotFoundResult) {
-                var model = _CoeveryServices.New.NotFound();
+                var model = _coeveryServices.New.NotFound();
                 var request = filterContext.RequestContext.HttpContext.Request;
                 var url = request.RawUrl;
 
