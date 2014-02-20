@@ -22,19 +22,19 @@ namespace Coevery.Users.Controllers {
         private readonly IAuthenticationService _authenticationService;
         private readonly IMembershipService _membershipService;
         private readonly IUserService _userService;
-        private readonly ICoeveryServices _orchardServices;
+        private readonly ICoeveryServices _coeveryServices;
         private readonly IUserEventHandler _userEventHandler;
 
         public AccountController(
             IAuthenticationService authenticationService, 
             IMembershipService membershipService,
             IUserService userService, 
-            ICoeveryServices orchardServices,
+            ICoeveryServices coeveryServices,
             IUserEventHandler userEventHandler) {
             _authenticationService = authenticationService;
             _membershipService = membershipService;
             _userService = userService;
-            _orchardServices = orchardServices;
+            _coeveryServices = coeveryServices;
             _userEventHandler = userEventHandler;
             Logger = NullLogger.Instance;
             T = NullLocalizer.Instance;
@@ -50,7 +50,7 @@ namespace Coevery.Users.Controllers {
 
             if (currentUser == null) {
                 Logger.Information("Access denied to anonymous request on {0}", returnUrl);
-                var shape = _orchardServices.New.LogOn().Title(T("Access Denied").Text);
+                var shape = _coeveryServices.New.LogOn().Title(T("Access Denied").Text);
                 return new ShapeResult(this, shape); 
             }
 
@@ -68,7 +68,7 @@ namespace Coevery.Users.Controllers {
             if (_authenticationService.GetAuthenticatedUser() != null)
                 return Redirect("~/");
 
-            var shape = _orchardServices.New.LogOn().Title(T("Log On").Text);
+            var shape = _coeveryServices.New.LogOn().Title(T("Log On").Text);
             return new ShapeResult(this, shape); 
         }
 
@@ -80,7 +80,7 @@ namespace Coevery.Users.Controllers {
         public ActionResult LogOn(string userNameOrEmail, string password, string returnUrl, bool rememberMe = false) {
             var user = ValidateLogOn(userNameOrEmail, password);
             if (!ModelState.IsValid) {
-                var shape = _orchardServices.New.LogOn().Title(T("Log On").Text);
+                var shape = _coeveryServices.New.LogOn().Title(T("Log On").Text);
                 return new ShapeResult(this, shape); 
             }
 
@@ -107,14 +107,14 @@ namespace Coevery.Users.Controllers {
         [AlwaysAccessible]
         public ActionResult Register() {
             // ensure users can register
-            var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
+            var registrationSettings = _coeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
             if ( !registrationSettings.UsersCanRegister ) {
                 return HttpNotFound();
             }
 
             ViewData["PasswordLength"] = MinPasswordLength;
 
-            var shape = _orchardServices.New.Register();
+            var shape = _coeveryServices.New.Register();
             return new ShapeResult(this, shape); 
         }
 
@@ -123,7 +123,7 @@ namespace Coevery.Users.Controllers {
         [ValidateInput(false)]
         public ActionResult Register(string userName, string email, string password, string confirmPassword) {
             // ensure users can register
-            var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
+            var registrationSettings = _coeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
             if ( !registrationSettings.UsersCanRegister ) {
                 return HttpNotFound();
             }
@@ -137,7 +137,7 @@ namespace Coevery.Users.Controllers {
 
                 if (user != null) {
                     if ( user.EmailStatus == UserStatus.Pending ) {
-                        var siteUrl = _orchardServices.WorkContext.CurrentSite.BaseUrl;
+                        var siteUrl = _coeveryServices.WorkContext.CurrentSite.BaseUrl;
                         if(String.IsNullOrWhiteSpace(siteUrl)) {
                             siteUrl = HttpContext.Request.ToRootUrlString();
                         }
@@ -160,14 +160,14 @@ namespace Coevery.Users.Controllers {
             }
 
             // If we got this far, something failed, redisplay form
-            var shape = _orchardServices.New.Register();
+            var shape = _coeveryServices.New.Register();
             return new ShapeResult(this, shape); 
         }
 
         [AlwaysAccessible]
         public ActionResult RequestLostPassword() {
             // ensure users can request lost password
-            var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
+            var registrationSettings = _coeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
             if ( !registrationSettings.EnableLostPassword ) {
                 return HttpNotFound();
             }
@@ -179,7 +179,7 @@ namespace Coevery.Users.Controllers {
         [AlwaysAccessible]
         public ActionResult RequestLostPassword(string username) {
             // ensure users can request lost password
-            var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
+            var registrationSettings = _coeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
             if ( !registrationSettings.EnableLostPassword ) {
                 return HttpNotFound();
             }
@@ -189,14 +189,14 @@ namespace Coevery.Users.Controllers {
                 return View();
             }
 
-            var siteUrl = _orchardServices.WorkContext.CurrentSite.BaseUrl;
+            var siteUrl = _coeveryServices.WorkContext.CurrentSite.BaseUrl;
             if (String.IsNullOrWhiteSpace(siteUrl)) {
                 siteUrl = HttpContext.Request.ToRootUrlString();
             }
 
             _userService.SendLostPasswordEmail(username, nonce => Url.MakeAbsolute(Url.Action("LostPassword", "Account", new { Area = "Coevery.Users", nonce = nonce }), siteUrl));
 
-            _orchardServices.Notifier.Information(T("Check your e-mail for the confirmation link."));
+            _coeveryServices.Notifier.Information(T("Check your e-mail for the confirmation link."));
 
             return RedirectToAction("LogOn");
         }
