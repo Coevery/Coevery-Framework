@@ -19,7 +19,7 @@ using Coevery.Services;
 namespace Coevery.Users.Services {
     [UsedImplicitly]
     public class MembershipService : IMembershipService {
-        private readonly ICoeveryServices _orchardServices;
+        private readonly ICoeveryServices _coeveryServices;
         private readonly IMessageService _messageService;
         private readonly IEnumerable<IUserEventHandler> _userEventHandlers;
         private readonly IEncryptionService _encryptionService;
@@ -28,7 +28,7 @@ namespace Coevery.Users.Services {
         private readonly IRepository<UserRecord> _userRecordRepository;
 
         public MembershipService(
-            ICoeveryServices orchardServices,
+            ICoeveryServices coeveryServices,
             IMessageService messageService,
             IEnumerable<IUserEventHandler> userEventHandlers,
             IClock clock,
@@ -36,7 +36,7 @@ namespace Coevery.Users.Services {
             IShapeFactory shapeFactory,
             IShapeDisplay shapeDisplay, 
             IRepository<UserRecord> userRecordRepository) {
-            _orchardServices = orchardServices;
+            _coeveryServices = coeveryServices;
             _messageService = messageService;
             _userEventHandlers = userEventHandlers;
             _encryptionService = encryptionService;
@@ -59,7 +59,7 @@ namespace Coevery.Users.Services {
         public IUser CreateUser(CreateUserParams createUserParams) {
             Logger.Information("CreateUser {0} {1}", createUserParams.Username, createUserParams.Email);
 
-            var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
+            var registrationSettings = _coeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
             var user = new UserRecord();
 
