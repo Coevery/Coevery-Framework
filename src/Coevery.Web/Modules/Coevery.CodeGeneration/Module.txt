@@ -1,0 +1,9 @@
+﻿Name: Code Generation
+AntiForgery: enabled
+Author: The Coevery Team
+Website: http://Coeveryproject.net
+Version: 1.7.2
+CoeveryVersion: 1.7.2
+Description: Tools to create Coevery components.
+FeatureDescription: Tools to create Coevery components.
+Category: Developer

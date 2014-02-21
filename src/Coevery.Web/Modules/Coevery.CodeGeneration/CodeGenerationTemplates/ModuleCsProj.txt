@@ -6,25 +6,19 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8C7FCBC2-E6E1-405E-BFB5-D8D9E67A09C4}</ProjectGuid>
+    <ProjectGuid>{$$ModuleProjectGuid$$}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Coevery.Setup</RootNamespace>
-    <AssemblyName>Coevery.Setup</AssemblyName>
+    <RootNamespace>$$ModuleName$$</RootNamespace>
+    <AssemblyName>$$ModuleName$$</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
+    <UpgradeBackupLocation />
     <TargetFrameworkProfile />
-    <UseIISExpress>false</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,7 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\..\..\CoeveryBasicCorrectness.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -48,93 +42,27 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=2.1.13.813, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\lib\autofac\Autofac.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\aspnetmvc\System.Web.Mvc.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\lib\aspnetmvc\System.Web.WebPages.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Annotations\SetupValidationAttributes.cs" />
-    <Compile Include="Annotations\SqlDatabaseConnectionStringAttribute.cs" />
-    <Compile Include="Annotations\StringLengthMin.cs" />
-    <Compile Include="Commands\SetupCommand.cs" />
-    <Compile Include="Controllers\SetupController.cs" />
-    <Compile Include="Controllers\SetupDatabaseType.cs" />
-    <Compile Include="CoreShapes.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Routes.cs" />
-    <Compile Include="Services\ISetupService.cs" />
-    <Compile Include="Services\SetupContext.cs" />
-    <Compile Include="Services\SetupService.cs" />
-    <Compile Include="SetupMode.cs" />
-    <Compile Include="ViewModels\SetupViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\synchronizing.gif" />
-    <Content Include="Recipes\core.recipe.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Scripts\base.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
-    <Content Include="Scripts\setup.js" />
-    <Content Include="Views\Setup\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Coevery\Coevery.Framework.csproj">
-      <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
-      <Name>Coevery.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Coevery.Core.csproj">
-      <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
-      <Name>Coevery.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Coevery.Recipes\Coevery.Recipes.csproj">
-      <Project>{fc1d74e8-7a4d-48f4-83de-95c6173780c4}</Project>
-      <Name>Coevery.Recipes</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Module.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Scripts\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Message.cshtml" />
+  $$FileIncludes$$<ItemGroup>
+    $$CoeveryReferences$$
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -168,13 +96,13 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>16146</DevelopmentServerPort>
+          <DevelopmentServerPort>45979</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>True</UseCustomServer>
-          <CustomServerUrl>http://Coevery.codeplex.com/</CustomServerUrl>
+          <CustomServerUrl>http://Coevery.codeplex.com</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
