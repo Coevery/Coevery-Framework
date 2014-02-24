@@ -36,7 +36,7 @@ namespace Coevery.Mvc.Html {
             return LabelFor(html, expression, labelText.ToString());
         }
 
-        public static IHtmlString LabelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string labelText) {
+        private static IHtmlString LabelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string labelText) {
             if (String.IsNullOrEmpty(labelText)) {
                 return MvcHtmlString.Empty;
             }
