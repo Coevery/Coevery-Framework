@@ -22,19 +22,19 @@ namespace Coevery.Users.Controllers {
         private readonly IAuthenticationService _authenticationService;
         private readonly IMembershipService _membershipService;
         private readonly IUserService _userService;
-        private readonly ICoeveryServices _coeveryServices;
+        private readonly ICoeveryServices _CoeveryServices;
         private readonly IUserEventHandler _userEventHandler;
 
         public AccountController(
             IAuthenticationService authenticationService, 
             IMembershipService membershipService,
             IUserService userService, 
-            ICoeveryServices coeveryServices,
+            ICoeveryServices CoeveryServices,
             IUserEventHandler userEventHandler) {
             _authenticationService = authenticationService;
             _membershipService = membershipService;
             _userService = userService;
-            _coeveryServices = coeveryServices;
+            _CoeveryServices = CoeveryServices;
             _userEventHandler = userEventHandler;
             Logger = NullLogger.Instance;
             T = NullLocalizer.Instance;
@@ -50,7 +50,7 @@ namespace Coevery.Users.Controllers {
 
             if (currentUser == null) {
                 Logger.Information("Access denied to anonymous request on {0}", returnUrl);
-                var shape = _coeveryServices.New.LogOn().Title(T("Access Denied").Text);
+                var shape = _CoeveryServices.New.LogOn().Title(T("Access Denied").Text);
                 return new ShapeResult(this, shape); 
             }
 
@@ -68,7 +68,7 @@ namespace Coevery.Users.Controllers {
             if (_authenticationService.GetAuthenticatedUser() != null)
                 return Redirect("~/");
 
-            var shape = _coeveryServices.New.LogOn().Title(T("Log On").Text);
+            var shape = _CoeveryServices.New.LogOn().Title(T("Log On").Text);
             return new ShapeResult(this, shape); 
         }
 
@@ -80,7 +80,7 @@ namespace Coevery.Users.Controllers {
         public ActionResult LogOn(string userNameOrEmail, string password, string returnUrl, bool rememberMe = false) {
             var user = ValidateLogOn(userNameOrEmail, password);
             if (!ModelState.IsValid) {
-                var shape = _coeveryServices.New.LogOn().Title(T("Log On").Text);
+                var shape = _CoeveryServices.New.LogOn().Title(T("Log On").Text);
                 return new ShapeResult(this, shape); 
             }
 
@@ -107,14 +107,14 @@ namespace Coevery.Users.Controllers {
         [AlwaysAccessible]
         public ActionResult Register() {
             // ensure users can register
-            var registrationSettings = _coeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
+            var registrationSettings = _CoeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
             if ( !registrationSettings.UsersCanRegister ) {
                 return HttpNotFound();
             }
 
             ViewData["PasswordLength"] = MinPasswordLength;
 
-            var shape = _coeveryServices.New.Register();
+            var shape = _CoeveryServices.New.Register();
             return new ShapeResult(this, shape); 
         }
 
@@ -123,7 +123,7 @@ namespace Coevery.Users.Controllers {
         [ValidateInput(false)]
         public ActionResult Register(string userName, string email, string password, string confirmPassword) {
             // ensure users can register
-            var registrationSettings = _coeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
+            var registrationSettings = _CoeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
             if ( !registrationSettings.UsersCanRegister ) {
                 return HttpNotFound();
             }
@@ -133,22 +133,22 @@ namespace Coevery.Users.Controllers {
             if (ValidateRegistration(userName, email, password, confirmPassword)) {
                 // Attempt to register the user
                 // No need to report this to IUserEventHandler because _membershipService does that for us
-                var user = (UserRecord)_membershipService.CreateUser(new CreateUserParams(userName, password, email, null, null, false));
+                var user = _membershipService.CreateUser(new CreateUserParams(userName, password, email, null, null, false));
 
                 if (user != null) {
-                    if ( user.EmailStatus == UserStatus.Pending ) {
-                        var siteUrl = _coeveryServices.WorkContext.CurrentSite.BaseUrl;
+                    if ( user.As<UserPart>().EmailStatus == UserStatus.Pending ) {
+                        var siteUrl = _CoeveryServices.WorkContext.CurrentSite.BaseUrl;
                         if(String.IsNullOrWhiteSpace(siteUrl)) {
                             siteUrl = HttpContext.Request.ToRootUrlString();
                         }
 
-                        _userService.SendChallengeEmail(user, nonce => Url.MakeAbsolute(Url.Action("ChallengeEmail", "Account", new {Area = "Coevery.Users", nonce = nonce}), siteUrl));
+                        _userService.SendChallengeEmail(user.As<UserPart>(), nonce => Url.MakeAbsolute(Url.Action("ChallengeEmail", "Account", new {Area = "Coevery.Users", nonce = nonce}), siteUrl));
 
                         _userEventHandler.SentChallengeEmail(user);
                         return RedirectToAction("ChallengeEmailSent");
                     }
 
-                    if (user.RegistrationStatus == UserStatus.Pending) {
+                    if (user.As<UserPart>().RegistrationStatus == UserStatus.Pending) {
                         return RedirectToAction("RegistrationPending");
                     }
 
@@ -160,14 +160,14 @@ namespace Coevery.Users.Controllers {
             }
 
             // If we got this far, something failed, redisplay form
-            var shape = _coeveryServices.New.Register();
+            var shape = _CoeveryServices.New.Register();
             return new ShapeResult(this, shape); 
         }
 
         [AlwaysAccessible]
         public ActionResult RequestLostPassword() {
             // ensure users can request lost password
-            var registrationSettings = _coeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
+            var registrationSettings = _CoeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
             if ( !registrationSettings.EnableLostPassword ) {
                 return HttpNotFound();
             }
@@ -179,7 +179,7 @@ namespace Coevery.Users.Controllers {
         [AlwaysAccessible]
         public ActionResult RequestLostPassword(string username) {
             // ensure users can request lost password
-            var registrationSettings = _coeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
+            var registrationSettings = _CoeveryServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
             if ( !registrationSettings.EnableLostPassword ) {
                 return HttpNotFound();
             }
@@ -189,14 +189,14 @@ namespace Coevery.Users.Controllers {
                 return View();
             }
 
-            var siteUrl = _coeveryServices.WorkContext.CurrentSite.BaseUrl;
+            var siteUrl = _CoeveryServices.WorkContext.CurrentSite.BaseUrl;
             if (String.IsNullOrWhiteSpace(siteUrl)) {
                 siteUrl = HttpContext.Request.ToRootUrlString();
             }
 
             _userService.SendLostPasswordEmail(username, nonce => Url.MakeAbsolute(Url.Action("LostPassword", "Account", new { Area = "Coevery.Users", nonce = nonce }), siteUrl));
 
-            _coeveryServices.Notifier.Information(T("Check your e-mail for the confirmation link."));
+            _CoeveryServices.Notifier.Information(T("Check your e-mail for the confirmation link."));
 
             return RedirectToAction("LogOn");
         }
@@ -362,7 +362,7 @@ namespace Coevery.Users.Controllers {
                 ModelState.AddModelError("email", T("You must specify an email address."));
                 validate = false;
             }
-            else if (!Regex.IsMatch(email, UserRecord.EmailPattern, RegexOptions.IgnoreCase)) {
+            else if (!Regex.IsMatch(email, UserPart.EmailPattern, RegexOptions.IgnoreCase)) {
                 // http://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx    
                 ModelState.AddModelError("email", T("You must specify a valid email address."));
                 validate = false;

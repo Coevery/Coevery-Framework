@@ -1,0 +1,13 @@
+﻿Name: Roles
+AntiForgery: enabled
+Author: The Coevery Team
+Website: http://Coeveryproject.net
+Version: 1.7.2
+CoeveryVersion: 1.7.2
+Description: Provides anti-spam services to protect your content from malicious submissions.
+Features:
+    Coevery.Roles:
+		Name: Roles
+        Description: Standard user roles.
+		Category: Core
+		Dependencies: Coevery.Users

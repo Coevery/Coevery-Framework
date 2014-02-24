@@ -4,9 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using Coevery.ContentManagement;
-using Coevery.Core.Settings.Descriptor.Records;
 using Coevery.Core.Settings.Models;
-using Coevery.Core.Settings.Services;
 using Coevery.Data;
 using Coevery.Data.Migration;
 using Coevery.Data.Migration.Interpreters;
@@ -34,7 +32,6 @@ namespace Coevery.Setup.Services {
         private readonly IShellContainerFactory _shellContainerFactory;
         private readonly ICompositionStrategy _compositionStrategy;
         private readonly IProcessingEngine _processingEngine;
-        private readonly IRecipeHarvester _recipeHarvester;
         private readonly IEnumerable<Recipe> _recipes;
 
         public SetupService(
@@ -51,8 +48,7 @@ namespace Coevery.Setup.Services {
             _shellContainerFactory = shellContainerFactory;
             _compositionStrategy = compositionStrategy;
             _processingEngine = processingEngine;
-            _recipeHarvester = recipeHarvester;
-            _recipes = _recipeHarvester.HarvestRecipes("Coevery.Setup");
+            _recipes = recipeHarvester.HarvestRecipes("Coevery.Setup");
             T = NullLocalizer.Instance;
         }
 
@@ -76,7 +72,7 @@ namespace Coevery.Setup.Services {
                     // Core
                     "Settings",
                     // Modules
-                    "Coevery.Recipes", "Coevery.Users"
+                    "Coevery.Recipes", "Coevery.Users", "Coevery.Roles"
                 };
 
             context.EnabledFeatures = hardcoded.Union(context.EnabledFeatures ?? Enumerable.Empty<string>()).Distinct().ToList();
@@ -106,8 +102,6 @@ namespace Coevery.Setup.Services {
             };
 
             var shellBlueprint = _compositionStrategy.Compose(shellSettings, shellDescriptor);
-
-            var f = shellBlueprint.Dependencies.Where(d => d.Type == typeof(RecipeManager)).ToList();
 
             // initialize database explicitly, and store shell descriptor
             using (var bootstrapLifetimeScope = _shellContainerFactory.CreateContainer(shellSettings, shellBlueprint)) {
@@ -174,6 +168,16 @@ namespace Coevery.Setup.Services {
         }
 
         private string CreateTenantData(SetupContext context, IWorkContextScope environment) {
+            // create superuser
+            var membershipService = environment.Resolve<IMembershipService>();
+            var user =
+                membershipService.CreateUser(new CreateUserParams(context.AdminUsername, context.AdminPassword,
+                                                                  String.Empty, String.Empty, String.Empty,
+                                                                  true));
+
+            // set superuser as current user for request (it will be set as the owner of all content items)
+            var authenticationService = environment.Resolve<IAuthenticationService>();
+            authenticationService.SetAuthenticatedUserForRequest(user);
 
             // set site name and settings
             var siteService = environment.Resolve<ISiteService>();
@@ -189,6 +193,11 @@ namespace Coevery.Setup.Services {
 
             var recipeManager = environment.Resolve<IRecipeManager>();
             string executionId = recipeManager.Execute(Recipes().FirstOrDefault(r => r.Name.Equals(context.Recipe, StringComparison.OrdinalIgnoreCase)));
+
+            // null check: temporary fix for running setup in command line
+            if (HttpContext.Current != null) {
+                authenticationService.SignIn(user, true);
+            }
 
             return executionId;
         }
