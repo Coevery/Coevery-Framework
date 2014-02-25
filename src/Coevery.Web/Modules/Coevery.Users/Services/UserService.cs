@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using Coevery.Data;
 using Coevery.DisplayManagement;
 using Coevery.Localization;
 using Coevery.Logging;
@@ -23,6 +22,7 @@ namespace Coevery.Users.Services {
         private static readonly TimeSpan DelayToValidate = new TimeSpan(7, 0, 0, 0); // one week to validate email
         private static readonly TimeSpan DelayToResetPassword = new TimeSpan(1, 0, 0, 0); // 24 hours to reset password
 
+        private readonly IContentManager _contentManager;
         private readonly IMembershipService _membershipService;
         private readonly IClock _clock;
         private readonly IMessageService _messageService;
@@ -30,9 +30,9 @@ namespace Coevery.Users.Services {
         private readonly IShapeFactory _shapeFactory;
         private readonly IShapeDisplay _shapeDisplay;
         private readonly ISiteService _siteService;
-        private readonly IRepository<UserRecord> _userRecordRepository;
 
         public UserService(
+            IContentManager contentManager, 
             IMembershipService membershipService, 
             IClock clock, 
             IMessageService messageService, 
@@ -40,8 +40,9 @@ namespace Coevery.Users.Services {
             IEncryptionService encryptionService,
             IShapeFactory shapeFactory,
             IShapeDisplay shapeDisplay,
-            ISiteService siteService, 
-            IRepository<UserRecord> userRecordRepository) {
+            ISiteService siteService
+            ) {
+            _contentManager = contentManager;
             _membershipService = membershipService;
             _clock = clock;
             _messageService = messageService;
@@ -49,7 +50,6 @@ namespace Coevery.Users.Services {
             _shapeFactory = shapeFactory;
             _shapeDisplay = shapeDisplay;
             _siteService = siteService;
-            _userRecordRepository = userRecordRepository;
             Logger = NullLogger.Instance;
         }
 
@@ -59,10 +59,11 @@ namespace Coevery.Users.Services {
         public bool VerifyUserUnicity(string userName, string email) {
             string normalizedUserName = userName.ToLowerInvariant();
 
-            if (_userRecordRepository.Table.Where(user => 
+            if (_contentManager.Query<UserPart, UserPartRecord>()
+                                   .Where(user => 
                                           user.NormalizedUserName == normalizedUserName || 
                                           user.Email == email)
-                                   .ToList().Any()) {
+                                   .List().Any()) {
                 return false;
             }
 
@@ -72,10 +73,11 @@ namespace Coevery.Users.Services {
         public bool VerifyUserUnicity(int id, string userName, string email) {
             string normalizedUserName = userName.ToLowerInvariant();
 
-            if (_userRecordRepository.Table.Where(user =>
+            if (_contentManager.Query<UserPart, UserPartRecord>()
+                                   .Where(user =>
                                           user.NormalizedUserName == normalizedUserName ||
                                           user.Email == email)
-                                   .ToList().Any(user => user.Id != id)) {
+                                   .List().Any(user => user.Id != id)) {
                 return false;
             }
 
@@ -121,7 +123,7 @@ namespace Coevery.Users.Services {
             if (user == null)
                 return null;
 
-            ((UserRecord)user).EmailStatus = UserStatus.Approved;
+            user.As<UserPart>().EmailStatus = UserStatus.Approved;
 
             return user;
         }
@@ -152,7 +154,7 @@ namespace Coevery.Users.Services {
 
         public bool SendLostPasswordEmail(string usernameOrEmail, Func<string, string> createUrl) {
             var lowerName = usernameOrEmail.ToLowerInvariant();
-            var user = _userRecordRepository.Table.Where(u => u.NormalizedUserName == lowerName || u.Email == lowerName).ToList().FirstOrDefault();
+            var user = _contentManager.Query<UserPart, UserPartRecord>().Where(u => u.NormalizedUserName == lowerName || u.Email == lowerName).List().FirstOrDefault();
 
             if (user != null) {
                 string nonce = CreateNonce(user, DelayToResetPassword);

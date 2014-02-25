@@ -5,7 +5,7 @@ namespace Coevery.Users {
     public class UsersDataMigration : DataMigrationImpl {
 
         public int Create() {
-            SchemaBuilder.CreateTable("UserRecord", 
+            SchemaBuilder.CreateTable("UserPartRecord", 
                 table => table
                     .ContentPartRecord()
                     .Column<string>("UserName")
@@ -22,5 +22,11 @@ namespace Coevery.Users {
 
             return 1;
         }
+
+        //public int UpdateFrom1() {
+        //    ContentDefinitionManager.AlterTypeDefinition("User", cfg => cfg.Creatable(false));
+
+        //    return 2;
+        //}
     }
 }

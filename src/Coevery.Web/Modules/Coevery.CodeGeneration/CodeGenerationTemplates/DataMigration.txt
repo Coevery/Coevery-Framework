@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using Coevery.ContentManagement.Drivers;
+using Coevery.ContentManagement.MetaData;
+using Coevery.ContentManagement.MetaData.Builders;
+using Coevery.Core.Contents.Extensions;
+using Coevery.Data.Migration;
+
+namespace $$FeatureName$$ {
+    public class Migrations : DataMigrationImpl {
+
+        public int Create() {
+$$Commands$$
+
+            return 1;
+        }
+    }
+}

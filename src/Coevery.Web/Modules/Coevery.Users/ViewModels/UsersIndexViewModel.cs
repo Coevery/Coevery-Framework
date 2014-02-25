@@ -10,7 +10,7 @@ namespace Coevery.Users.ViewModels {
     }
 
     public class UserEntry {
-        public UserRecord User { get; set; }
+        public UserPartRecord User { get; set; }
         public bool IsChecked { get; set; }
     }
 

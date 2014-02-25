@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Coevery.ContentManagement;
 using Coevery.Core.Settings.Models;
-using Coevery.Data;
 using Coevery.DisplayManagement;
 using Coevery.Localization;
 using Coevery.Mvc;
@@ -28,7 +27,6 @@ namespace Coevery.Users.Controllers {
         private readonly IUserService _userService;
         private readonly IEnumerable<IUserEventHandler> _userEventHandlers;
         private readonly ISiteService _siteService;
-        private readonly IRepository<UserRecord> _userRecordRepository;
 
         public AdminController(
             ICoeveryServices services,
@@ -36,14 +34,12 @@ namespace Coevery.Users.Controllers {
             IUserService userService,
             IShapeFactory shapeFactory,
             IEnumerable<IUserEventHandler> userEventHandlers,
-            ISiteService siteService, 
-            IRepository<UserRecord> userRecordRepository) {
+            ISiteService siteService) {
             Services = services;
             _membershipService = membershipService;
             _userService = userService;
             _userEventHandlers = userEventHandlers;
             _siteService = siteService;
-            _userRecordRepository = userRecordRepository;
 
             T = NullLocalizer.Instance;
             Shape = shapeFactory;
@@ -63,7 +59,8 @@ namespace Coevery.Users.Controllers {
             if (options == null)
                 options = new UserIndexOptions();
 
-            var users = _userRecordRepository.Table;
+            var users = Services.ContentManager
+                .Query<UserPart, UserPartRecord>();
 
             switch (options.Filter) {
                 case UsersFilter.Approved:
@@ -93,12 +90,12 @@ namespace Coevery.Users.Controllers {
             }
 
             var results = users
-                .Skip(pager.GetStartIndex()).Take(pager.PageSize)
+                .Slice(pager.GetStartIndex(), pager.PageSize)
                 .ToList();
 
             var model = new UsersIndexViewModel {
                 Users = results
-                    .Select(x => new UserEntry { User = x })
+                    .Select(x => new UserEntry { User = x.Record })
                     .ToList(),
                     Options = options,
                     Pager = pagerShape
@@ -177,7 +174,7 @@ namespace Coevery.Users.Controllers {
                 }
             }
             
-            if (!Regex.IsMatch(createModel.Email ?? "", UserRecord.EmailPattern, RegexOptions.IgnoreCase)) {
+            if (!Regex.IsMatch(createModel.Email ?? "", UserPart.EmailPattern, RegexOptions.IgnoreCase)) {
                 // http://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx    
                 ModelState.AddModelError("Email", T("You must specify a valid email address."));
             }
@@ -215,7 +212,7 @@ namespace Coevery.Users.Controllers {
             if (!Services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage users")))
                 return new HttpUnauthorizedResult();
 
-            var user = _userRecordRepository.Get(id);
+            var user = Services.ContentManager.Get<UserPart>(id);
             var editor = Shape.EditorTemplate(TemplateName: "Parts/User.Edit", Model: new UserEditViewModel {User = user}, Prefix: null);
             editor.Metadata.Position = "2";
             var model = Services.ContentManager.BuildEditor(user);
@@ -229,7 +226,7 @@ namespace Coevery.Users.Controllers {
             if (!Services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage users")))
                 return new HttpUnauthorizedResult();
 
-            var user = _userRecordRepository.Get(id);
+            var user = Services.ContentManager.Get<UserPart>(id, VersionOptions.DraftRequired);
             string previousName = user.UserName;
 
             var model = Services.ContentManager.UpdateEditor(user, this);
@@ -239,7 +236,7 @@ namespace Coevery.Users.Controllers {
                 if (!_userService.VerifyUserUnicity(id, editModel.UserName, editModel.Email)) {
                     AddModelError("NotUniqueUserName", T("User with that username and/or email already exists."));
                 }
-                else if (!Regex.IsMatch(editModel.Email ?? "", UserRecord.EmailPattern, RegexOptions.IgnoreCase)) {
+                else if (!Regex.IsMatch(editModel.Email ?? "", UserPart.EmailPattern, RegexOptions.IgnoreCase)) {
                     // http://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx    
                     ModelState.AddModelError("Email", T("You must specify a valid email address."));
                 }
@@ -304,9 +301,10 @@ namespace Coevery.Users.Controllers {
                     siteUrl = HttpContext.Request.ToRootUrlString();
                 }
 
-                _userService.SendChallengeEmail(user, nonce => Url.MakeAbsolute(Url.Action("ChallengeEmail", "Account", new { Area = "Coevery.Users", nonce = nonce }), siteUrl));
+                _userService.SendChallengeEmail(user.As<UserPart>(), nonce => Url.MakeAbsolute(Url.Action("ChallengeEmail", "Account", new { Area = "Coevery.Users", nonce = nonce }), siteUrl));
                 Services.Notifier.Information(T("Challenge email sent to {0}", user.UserName));
             }
+
 
             return RedirectToAction("Index");
         }
@@ -315,10 +313,10 @@ namespace Coevery.Users.Controllers {
             if (!Services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage users")))
                 return new HttpUnauthorizedResult();
 
-            var user = _userRecordRepository.Get(id);
+            var user = Services.ContentManager.Get<IUser>(id);
 
             if ( user != null ) {
-                user.RegistrationStatus = UserStatus.Approved;
+                user.As<UserPart>().RegistrationStatus = UserStatus.Approved;
                 Services.Notifier.Information(T("User {0} approved", user.UserName));
                 foreach (var userEventHandler in _userEventHandlers) {
                     userEventHandler.Approved(user);
@@ -332,14 +330,14 @@ namespace Coevery.Users.Controllers {
             if (!Services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage users")))
                 return new HttpUnauthorizedResult();
 
-            var user = _userRecordRepository.Get(id);
+            var user = Services.ContentManager.Get<IUser>(id);
 
             if (user != null) {
                 if (String.Equals(Services.WorkContext.CurrentUser.UserName, user.UserName, StringComparison.Ordinal)) {
                     Services.Notifier.Error(T("You can't disable your own account. Please log in with another account"));
                 }
                 else {
-                    user.RegistrationStatus = UserStatus.Pending;
+                    user.As<UserPart>().RegistrationStatus = UserStatus.Pending;
                     Services.Notifier.Information(T("User {0} disabled", user.UserName));
                 }
             }

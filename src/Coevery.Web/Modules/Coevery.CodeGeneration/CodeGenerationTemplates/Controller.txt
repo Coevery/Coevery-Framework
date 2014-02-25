@@ -1,0 +1,16 @@
+﻿using System.Web.Mvc;
+using Coevery.Localization;
+using Coevery;
+
+namespace $$ModuleName$$.Controllers {
+    public class $$ControllerName$$ : Controller {
+        public ICoeveryServices Services { get; set; }
+
+        public $$ControllerName$$(ICoeveryServices services) {
+            Services = services;
+            T = NullLocalizer.Instance;
+        }
+
+        public Localizer T { get; set; }
+    }
+}

@@ -1,0 +1,8 @@
+﻿Name: $$ThemeName$$
+Author: The Coevery Team
+Website: http://www.coevery.com
+Description: Description for the theme
+Version: 1.0
+BaseTheme: $$BaseTheme$$
+# todo: provide tags
+# Tags: Classic, Serif
