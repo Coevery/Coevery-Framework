@@ -32,7 +32,7 @@ namespace Coevery.Setup.Services {
         private readonly IShellContainerFactory _shellContainerFactory;
         private readonly ICompositionStrategy _compositionStrategy;
         private readonly IProcessingEngine _processingEngine;
-        private readonly IEnumerable<Recipe> _recipes;
+        //private readonly IEnumerable<Recipe> _recipes;
 
         public SetupService(
             ShellSettings shellSettings,
@@ -40,15 +40,14 @@ namespace Coevery.Setup.Services {
             IShellSettingsManager shellSettingsManager,
             IShellContainerFactory shellContainerFactory,
             ICompositionStrategy compositionStrategy,
-            IProcessingEngine processingEngine,
-            IRecipeHarvester recipeHarvester) {
+            IProcessingEngine processingEngine) {
             _shellSettings = shellSettings;
             _coeveryHost = coeveryHost;
             _shellSettingsManager = shellSettingsManager;
             _shellContainerFactory = shellContainerFactory;
             _compositionStrategy = compositionStrategy;
             _processingEngine = processingEngine;
-            _recipes = recipeHarvester.HarvestRecipes("Coevery.Setup");
+            //_recipes = recipeHarvester.HarvestRecipes("Coevery.Setup");
             T = NullLocalizer.Instance;
         }
 
@@ -59,7 +58,8 @@ namespace Coevery.Setup.Services {
         }
 
         public IEnumerable<Recipe> Recipes() {
-            return _recipes;
+            //return _recipes;
+            return Enumerable.Empty<Recipe>();
         }
 
         public string Setup(SetupContext context) {
@@ -70,9 +70,9 @@ namespace Coevery.Setup.Services {
                     // Framework
                     "Coevery.Framework",
                     // Core
-                    "Settings",
+                    "Settings", "Common",
                     // Modules
-                    "Coevery.Recipes", "Coevery.Users", "Coevery.Roles"
+                    "Coevery.Users", "Coevery.Roles"
                 };
 
             context.EnabledFeatures = hardcoded.Union(context.EnabledFeatures ?? Enumerable.Empty<string>()).Distinct().ToList();
@@ -191,15 +191,15 @@ namespace Coevery.Setup.Services {
             var cultureManager = environment.Resolve<ICultureManager>();
             cultureManager.AddCulture("en-US");
 
-            var recipeManager = environment.Resolve<IRecipeManager>();
-            string executionId = recipeManager.Execute(Recipes().FirstOrDefault(r => r.Name.Equals(context.Recipe, StringComparison.OrdinalIgnoreCase)));
+            //var recipeManager = environment.Resolve<IRecipeManager>();
+            //string executionId = recipeManager.Execute(Recipes().FirstOrDefault(r => r.Name.Equals(context.Recipe, StringComparison.OrdinalIgnoreCase)));
 
             // null check: temporary fix for running setup in command line
             if (HttpContext.Current != null) {
                 authenticationService.SignIn(user, true);
             }
 
-            return executionId;
+            return null;
         }
     }
 }

@@ -1,9 +1,0 @@
-﻿Name: Recipes
-AntiForgery: enabled
-Author: The Coevery Team
-Website: http://Coeveryproject.net
-Version: 1.7.2
-CoeveryVersion: 1.7.2
-Description: Provides Coevery Recipes.
-FeatureDescription: Implementation of Coevery recipes.
-Category: Core

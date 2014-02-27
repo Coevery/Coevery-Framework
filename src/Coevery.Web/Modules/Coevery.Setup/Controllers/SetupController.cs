@@ -63,9 +63,7 @@ namespace Coevery.Setup.Controllers {
 
             return IndexViewResult(new SetupViewModel {
                 AdminUsername = "admin",
-                DatabaseIsPreconfigured = !string.IsNullOrEmpty(initialSettings.DataProvider),
-                Recipes = recipes,
-                RecipeDescription = recipeDescription
+                DatabaseIsPreconfigured = !string.IsNullOrEmpty(initialSettings.DataProvider)
             });
         }
 
@@ -94,19 +92,7 @@ namespace Coevery.Setup.Controllers {
                     ModelState.AddModelError("DatabaseTablePrefix", T("The table prefix must contain letters or digits").Text);
                 }
             }
-            if (model.Recipe == null) {
-                if (!(recipes.Select(r => r.Name).Contains(DefaultRecipe))) {
-                    ModelState.AddModelError("Recipe", T("No recipes were found in the Setup module").Text);
-                }
-                else {
-                    model.Recipe = DefaultRecipe;
-                }
-            }
             if (!ModelState.IsValid) {
-                model.Recipes = recipes;
-                foreach (var recipe in recipes.Where(recipe => recipe.Name == model.Recipe)) {
-                    model.RecipeDescription = recipe.Description;
-                }
                 model.DatabaseIsPreconfigured = !string.IsNullOrEmpty(_setupService.Prime().DataProvider);
                 
                 return IndexViewResult(model);
@@ -140,11 +126,10 @@ namespace Coevery.Setup.Controllers {
                     DatabaseProvider = providerName,
                     DatabaseConnectionString = model.DatabaseConnectionString,
                     DatabaseTablePrefix = model.DatabaseTablePrefix,
-                    EnabledFeatures = null, // default list
-                    Recipe = model.Recipe
+                    EnabledFeatures = null // default list
                 };
 
-                string executionId = _setupService.Setup(setupContext);
+                _setupService.Setup(setupContext);
 
                 // First time installation if finally done. Tell the background views compilation
                 // process to stop, so that it doesn't interfere with the user (asp.net compilation
@@ -157,10 +142,6 @@ namespace Coevery.Setup.Controllers {
                 Logger.Error(ex, "Setup failed");
                 _notifier.Error(T("Setup failed: {0}", ex.Message));
 
-                model.Recipes = recipes;
-                foreach (var recipe in recipes.Where(recipe => recipe.Name == model.Recipe)) {
-                    model.RecipeDescription = recipe.Description;
-                }
                 model.DatabaseIsPreconfigured = !string.IsNullOrEmpty(_setupService.Prime().DataProvider);
 
                 return IndexViewResult(model);

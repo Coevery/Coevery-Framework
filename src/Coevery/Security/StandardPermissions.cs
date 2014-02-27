@@ -49,23 +49,7 @@ namespace Coevery.Security {
                 new PermissionStereotype {
                     Name = "Authenticated",
                     Permissions = new[] {AccessFrontEnd}
-                },
-                new PermissionStereotype {
-                    Name = "Editor",
-                    Permissions = new[] {AccessAdminPanel}
-                },
-                new PermissionStereotype {
-                    Name = "Moderator",
-                    Permissions = new[] {AccessAdminPanel}
-                },
-                new PermissionStereotype {
-                    Name = "Author",
-                    Permissions = new[] {AccessAdminPanel}
-                },
-                new PermissionStereotype {
-                    Name = "Contributor",
-                    Permissions = new[] {AccessAdminPanel}
-                },
+                }
             };
         }
 
