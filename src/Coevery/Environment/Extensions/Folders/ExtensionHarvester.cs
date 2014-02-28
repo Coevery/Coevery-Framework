@@ -15,7 +15,7 @@ namespace Coevery.Environment.Extensions.Folders {
         private const string PathSection = "path";
         private const string DescriptionSection = "description";
         private const string VersionSection = "version";
-        private const string CoeveryVersionSection = "Coeveryversion";
+        private const string CoeveryVersionSection = "coeveryversion";
         private const string AuthorSection = "author";
         private const string WebsiteSection = "website";
         private const string TagsSection = "tags";
