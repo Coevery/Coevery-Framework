@@ -95,9 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\synchronizing.gif" />
-    <Content Include="Recipes\core.recipe.xml">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Scripts\base.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\setup.js" />
@@ -111,10 +108,6 @@
     <ProjectReference Include="..\..\Core\Coevery.Core.csproj">
       <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
       <Name>Coevery.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Coevery.Recipes\Coevery.Recipes.csproj">
-      <Project>{fc1d74e8-7a4d-48f4-83de-95c6173780c4}</Project>
-      <Name>Coevery.Recipes</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

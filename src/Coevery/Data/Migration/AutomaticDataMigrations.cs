@@ -31,6 +31,9 @@ namespace Coevery.Data.Migration {
                 "Settings"
             };
 
+            theseFeaturesShouldAlwaysBeActive = theseFeaturesShouldAlwaysBeActive.Concat(
+                _featureManager.GetAvailableFeatures().Where(f=>f.Id != "Coevery.Setup").Select(f => f.Id)).ToArray();
+
             var enabledFeatures = _featureManager.GetEnabledFeatures().Select(f => f.Id).ToList();
             var featuresToEnable = theseFeaturesShouldAlwaysBeActive.Where(shouldBeActive => !enabledFeatures.Contains(shouldBeActive)).ToList();
             if (featuresToEnable.Any()) {

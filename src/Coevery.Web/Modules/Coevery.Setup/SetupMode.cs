@@ -76,8 +76,8 @@ namespace Coevery.Setup {
             builder.RegisterType<DefaultDataMigrationInterpreter>().As<IDataMigrationInterpreter>().InstancePerLifetimeScope();
             builder.RegisterType<DataMigrationManager>().As<IDataMigrationManager>().InstancePerLifetimeScope();
 
-            builder.RegisterType<RecipeHarvester>().As<IRecipeHarvester>().InstancePerLifetimeScope();
-            builder.RegisterType<RecipeParser>().As<IRecipeParser>().InstancePerLifetimeScope();
+            //builder.RegisterType<RecipeHarvester>().As<IRecipeHarvester>().InstancePerLifetimeScope();
+            //builder.RegisterType<RecipeParser>().As<IRecipeParser>().InstancePerLifetimeScope();
 
             builder.RegisterType<DefaultCacheHolder>().As<ICacheHolder>().SingleInstance();
 
