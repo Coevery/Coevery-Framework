@@ -64,11 +64,61 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGenerationTemplates\Controller.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Controller.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGenerationTemplates\DataMigration.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataMigration.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGenerationTemplates\ModuleAssemblyInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuleAssemblyInfo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGenerationTemplates\ModuleCsProj1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuleCsProj.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGenerationTemplates\ModuleManifest.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuleManifest.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGenerationTemplates\ThemeManifest.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ThemeManifest.tt</DependentUpon>
+    </Compile>
     <Compile Include="Commands\CodeGenerationCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CodeGenerationCommandInterpreter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CodeGenerationTemplates\Controller.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Controller.cs</LastGenOutput>
+    </None>
+    <None Include="CodeGenerationTemplates\DataMigration.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DataMigration.cs</LastGenOutput>
+    </None>
+    <None Include="CodeGenerationTemplates\ModuleAssemblyInfo.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ModuleAssemblyInfo.cs</LastGenOutput>
+    </None>
+    <None Include="CodeGenerationTemplates\ModuleManifest.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ModuleManifest.cs</LastGenOutput>
+    </None>
+    <None Include="CodeGenerationTemplates\ThemeManifest.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ThemeManifest.cs</LastGenOutput>
+    </None>
     <Content Include="CodeGenerationTemplates\ModuleTestsCsProj.txt" />
     <Content Include="CodeGenerationTemplates\StaticFilesWebConfig.txt" />
     <Content Include="CodeGenerationTemplates\Theme.png" />
@@ -96,6 +146,15 @@
       <Project>{2d1d92bb-4555-4cbe-8d0e-63563d6ce4c6}</Project>
       <Name>Coevery.Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CodeGenerationTemplates\ModuleCsProj.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ModuleCsProj1.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

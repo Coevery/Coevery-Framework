@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web.Hosting;
+using Coevery.CodeGeneration.CodeGenerationTemplates;
 using Coevery.CodeGeneration.Services;
 using Coevery.Commands;
 using Coevery.Data.Migration.Generator;
@@ -32,7 +33,7 @@ namespace Coevery.CodeGeneration.Commands {
 
         private const string ModuleName = "CodeGeneration";
         private static readonly string _codeGenTemplatePath = HostingEnvironment.MapPath("~/Modules/Coevery." + ModuleName + "/CodeGenerationTemplates/");
-        private static readonly string _CoeveryWebProj = HostingEnvironment.MapPath("~/Coevery.Web.csproj");
+        private static readonly string _WebRootProj = HostingEnvironment.MapPath("~/");
         private static readonly string _CoeveryThemesProj = HostingEnvironment.MapPath("~/Themes/Themes.csproj");
 
         public CodeGenerationCommands(
@@ -89,10 +90,11 @@ namespace Coevery.CodeGeneration.Commands {
                     interpreter.Visit(command);
                     stringWriter.WriteLine();
                 }
-
-                dataMigrationText = File.ReadAllText(templatesPath + "DataMigration.txt");
-                dataMigrationText = dataMigrationText.Replace("$$FeatureName$$", featureName);
-                dataMigrationText = dataMigrationText.Replace("$$Commands$$", stringWriter.ToString());
+                var migrationTemplate = new DataMigration {Session = new Dictionary<string, object>()};
+                migrationTemplate.Session["FeatureName"] = featureName;
+                migrationTemplate.Session["Commands"] = stringWriter.ToString();
+                migrationTemplate.Initialize();
+                dataMigrationText = migrationTemplate.TransformText();
             }
             File.WriteAllText(dataMigrationFilePath, dataMigrationText);
 
@@ -154,9 +156,13 @@ namespace Coevery.CodeGeneration.Commands {
                 }
             }
 
-            var projectGuid = Guid.NewGuid().ToString().ToUpper();
-
-            var templateText = File.ReadAllText(_codeGenTemplatePath + "ModuleAssemblyInfo.txt");
+            var projectGuid = Guid.NewGuid();
+            var assemblyInfoTemplate = new ModuleAssemblyInfo();
+            assemblyInfoTemplate.Session = new Dictionary<string, object>();
+            assemblyInfoTemplate.Session["ModuleName"] = moduleName;
+            assemblyInfoTemplate.Session["ModuleTypeLibGuid"] = projectGuid;
+            assemblyInfoTemplate.Initialize();
+            string templateText = assemblyInfoTemplate.TransformText();
             templateText = templateText.Replace("$$ModuleName$$", projectName);
             templateText = templateText.Replace("$$ModuleTypeLibGuid$$", Guid.NewGuid().ToString());
             File.WriteAllText(propertiesPath + "\\AssemblyInfo.cs", templateText);
@@ -166,7 +172,7 @@ namespace Coevery.CodeGeneration.Commands {
 
             var csprojText = File.ReadAllText(_codeGenTemplatePath + "\\ModuleTestsCsProj.txt");
             csprojText = csprojText.Replace("$$ProjectName$$", projectName);
-            csprojText = csprojText.Replace("$$TestsProjectGuid$$", projectGuid);
+            csprojText = csprojText.Replace("$$TestsProjectGuid$$", projectGuid.ToString().ToUpper());
             csprojText = csprojText.Replace("$$FileIncludes$$", itemGroup ?? "");
             csprojText = csprojText.Replace("$$CoeveryReferences$$", GetCoeveryReferences());
 
@@ -219,7 +225,6 @@ namespace Coevery.CodeGeneration.Commands {
             string moduleControllersPath = HostingEnvironment.MapPath("~/Modules/" + extensionDescriptor.Id + "/Controllers/");
             string controllerPath = moduleControllersPath + controllerName + ".cs";
             string moduleCsProjPath = HostingEnvironment.MapPath(string.Format("~/Modules/{0}/{0}.csproj", extensionDescriptor.Id));
-            string templatesPath = HostingEnvironment.MapPath("~/Modules/Coevery." + ModuleName + "/CodeGenerationTemplates/");
 
             if (!Directory.Exists(moduleControllersPath)) {
                 Directory.CreateDirectory(moduleControllersPath);
@@ -229,9 +234,11 @@ namespace Coevery.CodeGeneration.Commands {
                 return;
             }
 
-            string controllerText = File.ReadAllText(templatesPath + "Controller.txt");
-            controllerText = controllerText.Replace("$$ModuleName$$", moduleName);
-            controllerText = controllerText.Replace("$$ControllerName$$", controllerName);
+            var controllerTemplate = new Controller {Session = new Dictionary<string, object>()};
+            controllerTemplate.Session["ModuleName"] = moduleName;
+            controllerTemplate.Session["ControllerName"] = controllerName;
+            controllerTemplate.Initialize();
+            string controllerText = controllerTemplate.TransformText();
             File.WriteAllText(controllerPath, controllerText);
             string projectFileText = File.ReadAllText(moduleCsProjPath);
 
@@ -251,7 +258,7 @@ namespace Coevery.CodeGeneration.Commands {
         }
 
         private void IntegrateModule(string moduleName) {
-            string projectGuid = Guid.NewGuid().ToString().ToUpper();
+            var projectGuid = Guid.NewGuid();
 
             CreateFilesFromTemplates(moduleName, projectGuid);
             // The string searches in solution/project files can be made aware of comment lines.
@@ -264,11 +271,11 @@ namespace Coevery.CodeGeneration.Commands {
             CreateThemeFromTemplates(Context.Output,
                 themeName,
                 baseTheme,
-                CreateProject ? Guid.NewGuid().ToString().ToUpper() : null,
+                CreateProject ? Guid.NewGuid() : (Guid?)null,
                 IncludeInSolution);
         }
 
-        private void CreateFilesFromTemplates(string moduleName, string projectGuid) {
+        private void CreateFilesFromTemplates(string moduleName, Guid? projectGuid) {
             string modulePath = HostingEnvironment.MapPath("~/Modules/" + moduleName + "/");
             string propertiesPath = modulePath + "Properties";
             var content = new HashSet<string>();
@@ -288,14 +295,20 @@ namespace Coevery.CodeGeneration.Commands {
             File.WriteAllText(modulePath + "Styles\\Web.config", File.ReadAllText(_codeGenTemplatePath + "StaticFilesWebConfig.txt"));
             content.Add(modulePath + "Styles\\Web.config");
 
-            string templateText = File.ReadAllText(_codeGenTemplatePath + "ModuleAssemblyInfo.txt");
-            templateText = templateText.Replace("$$ModuleName$$", moduleName);
-            templateText = templateText.Replace("$$ModuleTypeLibGuid$$", Guid.NewGuid().ToString());
+            var assemblyInfoTemplate = new ModuleAssemblyInfo();
+            assemblyInfoTemplate.Session = new Dictionary<string, object>();
+            assemblyInfoTemplate.Session["ModuleName"] = moduleName;
+            assemblyInfoTemplate.Session["ModuleTypeLibGuid"] = Guid.NewGuid();
+            assemblyInfoTemplate.Initialize();
+            string templateText = assemblyInfoTemplate.TransformText();
             File.WriteAllText(propertiesPath + "\\AssemblyInfo.cs", templateText);
             content.Add(propertiesPath + "\\AssemblyInfo.cs");
 
-            templateText = File.ReadAllText(_codeGenTemplatePath + "ModuleManifest.txt");
-            templateText = templateText.Replace("$$ModuleName$$", moduleName);
+            var moduleMainfestTemplate = new ModuleManifest();
+            moduleMainfestTemplate.Session = new Dictionary<string, object>();
+            moduleMainfestTemplate.Session["ModuleName"] = moduleName;
+            moduleMainfestTemplate.Initialize();
+            templateText = moduleMainfestTemplate.TransformText();
             File.WriteAllText(modulePath + "Module.txt", templateText, System.Text.Encoding.UTF8);
             content.Add(modulePath + "Module.txt");
 
@@ -304,26 +317,19 @@ namespace Coevery.CodeGeneration.Commands {
             File.WriteAllText(modulePath + moduleName + ".csproj", CreateCsProject(moduleName, projectGuid, itemGroup));
         }
 
-        private static string CreateCsProject(string projectName, string projectGuid, string itemGroup) {
-            string text = File.ReadAllText(_codeGenTemplatePath + "\\ModuleCsProj.txt");
-            text = text.Replace("$$ModuleName$$", projectName);
-            text = text.Replace("$$ModuleProjectGuid$$", projectGuid);
-            text = text.Replace("$$FileIncludes$$", itemGroup ?? "");
-            text = text.Replace("$$CoeveryReferences$$", GetCoeveryReferences());
-            return text;
+        private static string CreateCsProject(string projectName, Guid? projectGuid, string itemGroup) {
+            var session = new Dictionary<string, object>();
+            session["ModuleName"] = projectName;
+            session["ModuleProjectGuid"] = projectGuid;
+            session["FileIncludes"] = itemGroup;
+            session["CoeveryReferences"] = GetCoeveryReferences();
+            var projectTemplate = new ModuleCsProj {Session = session};
+            projectTemplate.Initialize();
+            return projectTemplate.TransformText();
         }
 
         private static string GetCoeveryReferences() {
-            return IsSourceEnlistment() ?
-@"<ProjectReference Include=""..\..\..\Coevery\Coevery.Framework.csproj"">
-      <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
-      <Name>Coevery.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include=""..\..\Core\Coevery.Core.csproj"">
-      <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
-      <Name>Coevery.Core</Name>
-    </ProjectReference>" :
-@"<Reference Include=""Coevery.Core"">
+            return @"<Reference Include=""Coevery.Core"">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\Coevery.Core.dll</HintPath>
     </Reference>
@@ -333,11 +339,7 @@ namespace Coevery.CodeGeneration.Commands {
     </Reference>";
         }
 
-        private static bool IsSourceEnlistment() {
-            return File.Exists(Directory.GetParent(_CoeveryWebProj).Parent.FullName + "\\Coevery.sln");
-        }
-
-        private void CreateThemeFromTemplates(TextWriter output, string themeName, string baseTheme, string projectGuid, bool includeInSolution) {
+        private void CreateThemeFromTemplates(TextWriter output, string themeName, string baseTheme, Guid? projectGuid, bool includeInSolution) {
             var themePath = HostingEnvironment.MapPath("~/Themes/" + themeName + "/");
             var createdFiles = new HashSet<string>();
             var createdFolders = new HashSet<string>();
@@ -360,13 +362,11 @@ namespace Coevery.CodeGeneration.Commands {
             File.WriteAllText(themePath + "Content\\Web.config", File.ReadAllText(_codeGenTemplatePath + "StaticFilesWebConfig.txt"));
             createdFiles.Add(themePath + "Content\\Web.config");
 
-            var templateText = File.ReadAllText(_codeGenTemplatePath + "\\ThemeManifest.txt").Replace("$$ThemeName$$", themeName);
-            if (string.IsNullOrEmpty(baseTheme)) {
-                templateText = templateText.Replace("BaseTheme: $$BaseTheme$$\r\n", "");
-            }
-            else {
-                templateText = templateText.Replace("$$BaseTheme$$", baseTheme);
-            }
+            var themeTemplate = new ThemeManifest() {Session = new Dictionary<string, object>()};
+            themeTemplate.Session["ThemeName"] = themeName;
+            themeTemplate.Session["BaseTheme"] = baseTheme;
+            themeTemplate.Initialize();
+            var templateText = themeTemplate.TransformText();
 
             File.WriteAllText(themePath + "Theme.txt", templateText);
             createdFiles.Add(themePath + "Theme.txt");
@@ -399,9 +399,15 @@ namespace Coevery.CodeGeneration.Commands {
         }
 
 
-        private void AddToSolution(TextWriter output, string projectName, string projectGuid, string containingFolder, string solutionFolderGuid) {
-            if (!string.IsNullOrEmpty(projectGuid)) {
-                var solutionPath = Directory.GetParent(_CoeveryWebProj).Parent.FullName + "\\Coevery.sln";
+        private void AddToSolution(TextWriter output, string projectName, Guid? projectGuid, string containingFolder, string solutionFolderGuid) {
+            if (projectGuid != null) {
+                var parentDirectory = Directory.GetParent(_WebRootProj).Parent;
+                if (parentDirectory == null) {
+                    return;
+                }
+                var solutions = parentDirectory.GetFiles("*.sln");
+                if (solutions.Length == 0) return;
+                var solutionPath = solutions.First().FullName;
                 if (File.Exists(solutionPath)) {
                     var projectReference = string.Format("EndProject\r\nProject(\"{{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}}\") = \"{0}\", \"Coevery.Web\\{2}\\{0}\\{0}.csproj\", \"{{{1}}}\"\r\n", projectName, projectGuid, containingFolder);
                     var projectConfiguationPlatforms = string.Format("GlobalSection(ProjectConfigurationPlatforms) = postSolution\r\n\t\t{{{0}}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU\r\n\t\t{{{0}}}.Debug|Any CPU.Build.0 = Debug|Any CPU\r\n\t\t{{{0}}}.Release|Any CPU.ActiveCfg = Release|Any CPU\r\n\t\t{{{0}}}.Release|Any CPU.Build.0 = Release|Any CPU\r\n", projectGuid);
@@ -457,13 +463,17 @@ namespace Coevery.CodeGeneration.Commands {
         }
 
         private void TouchSolution(TextWriter output) {
-            string rootWebProjectPath = HostingEnvironment.MapPath("~/Coevery.Web.csproj");
-            string solutionPath = Directory.GetParent(rootWebProjectPath).Parent.FullName + "\\Coevery.sln";
-            if (!File.Exists(solutionPath)) {
-                output.WriteLine(T("Warning: Solution file could not be found at {0}", solutionPath));
+            var parentDirectory = Directory.GetParent(_WebRootProj).Parent;
+            if (parentDirectory == null) {
+                return;
+            }
+            var solutions = parentDirectory.GetFiles("*.sln");
+            if (!solutions.Any()) {
+                output.WriteLine(T("Warning: Solution file could not be found at {0}", parentDirectory.FullName));
                 return;
             }
 
+            string solutionPath = solutions.First().FullName;
             try {
                 File.SetLastWriteTime(solutionPath, DateTime.Now);
             }
