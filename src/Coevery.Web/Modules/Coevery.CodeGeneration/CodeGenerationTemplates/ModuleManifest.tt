@@ -9,5 +9,5 @@ Version: 1.0
 CoeveryVersion: 1.0
 Description: Description for the module
 Features:
-    $$ModuleName$$:
+    <#=ModuleName#>:
         Description: Description for feature <#=ModuleName#>

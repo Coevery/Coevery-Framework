@@ -69,7 +69,6 @@ namespace Coevery.CodeGeneration.Commands {
 
             string dataMigrationFolderPath = HostingEnvironment.MapPath("~/Modules/" + extensionDescriptor.Id + "/");
             string dataMigrationFilePath = dataMigrationFolderPath + "Migrations.cs";
-            string templatesPath = HostingEnvironment.MapPath("~/Modules/Coevery." + ModuleName + "/CodeGenerationTemplates/");
             string moduleCsProjPath = HostingEnvironment.MapPath(string.Format("~/Modules/{0}/{0}.csproj", extensionDescriptor.Id));
 
             if (!Directory.Exists(dataMigrationFolderPath)) {
@@ -163,18 +162,17 @@ namespace Coevery.CodeGeneration.Commands {
             assemblyInfoTemplate.Session["ModuleTypeLibGuid"] = projectGuid;
             assemblyInfoTemplate.Initialize();
             string templateText = assemblyInfoTemplate.TransformText();
-            templateText = templateText.Replace("$$ModuleName$$", projectName);
-            templateText = templateText.Replace("$$ModuleTypeLibGuid$$", Guid.NewGuid().ToString());
             File.WriteAllText(propertiesPath + "\\AssemblyInfo.cs", templateText);
             content.Add(propertiesPath + "\\AssemblyInfo.cs");
 
             var itemGroup = CreateProjectItemGroup(testsPath, content, folders);
-
-            var csprojText = File.ReadAllText(_codeGenTemplatePath + "\\ModuleTestsCsProj.txt");
-            csprojText = csprojText.Replace("$$ProjectName$$", projectName);
-            csprojText = csprojText.Replace("$$TestsProjectGuid$$", projectGuid.ToString().ToUpper());
-            csprojText = csprojText.Replace("$$FileIncludes$$", itemGroup ?? "");
-            csprojText = csprojText.Replace("$$CoeveryReferences$$", GetCoeveryReferences());
+            var csprojTemplate = new ModuleTestsCsProj() {Session = new Dictionary<string, object>()};
+            csprojTemplate.Session["ProjectName"] = projectName;
+            csprojTemplate.Session["TestsProjectGuid"] = projectGuid;
+            csprojTemplate.Session["FileIncludes"] = itemGroup;
+            csprojTemplate.Session["CoeveryReferences"] = GetCoeveryReferences();
+            csprojTemplate.Initialize();
+            var csprojText = csprojTemplate.TransformText();
 
             File.WriteAllText(testsPath + projectName + ".csproj", csprojText);
 

@@ -89,6 +89,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModuleManifest.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeGenerationTemplates\ModuleTestsCsProj.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModuleTestsCsProj.tt</DependentUpon>
+    </Compile>
     <Compile Include="CodeGenerationTemplates\ThemeManifest.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -119,6 +124,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ThemeManifest.cs</LastGenOutput>
     </None>
+    <None Include="CodeGenerationTemplates\ModuleTestsCsProj.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ModuleTestsCsProj.cs</LastGenOutput>
+    </None>
     <Content Include="CodeGenerationTemplates\ModuleTestsCsProj.txt" />
     <Content Include="CodeGenerationTemplates\StaticFilesWebConfig.txt" />
     <Content Include="CodeGenerationTemplates\Theme.png" />
@@ -126,9 +135,6 @@
     <Content Include="Module.txt" />
     <Content Include="CodeGenerationTemplates\Controller.txt" />
     <Content Include="CodeGenerationTemplates\DataMigration.txt" />
-    <Content Include="CodeGenerationTemplates\ModuleAssemblyInfo.txt" />
-    <Content Include="CodeGenerationTemplates\ModuleCsProj.txt" />
-    <Content Include="CodeGenerationTemplates\ModuleManifest.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config">
