@@ -1,14 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<#@ template debug="false" language="C#" #>
+<#@ output extension=".txt" #>
+<#@ parameter type="System.Guid" name="TestsProjectGuid" #>
+<#@ parameter type="System.String" name="ProjectName" #>
+<#@ parameter type="System.String" name="FileIncludes" #>
+<#@ parameter type="System.String" name="CoeveryReferences" #>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{$$TestsProjectGuid$$}</ProjectGuid>
+    <ProjectGuid>{<#=TestsProjectGuid#>}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>$$ProjectName$$</RootNamespace>
-    <AssemblyName>$$ProjectName$$</AssemblyName>
+    <RootNamespace><#=ProjectName#></RootNamespace>
+    <AssemblyName><#=ProjectName#></AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <OldToolsVersion>4.0</OldToolsVersion>
   </PropertyGroup>
@@ -56,7 +62,8 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
-  $$FileIncludes$$<ItemGroup>
+  <#=FileIncludes#>
+  <ItemGroup>
     <ProjectReference Include="..\..\..\..\Coevery.Tests.Modules\Coevery.Tests.Modules.csproj">
         <Project>{6CB3EB30-F725-45C0-9742-42599BA8E8D2}</Project>
         <Name>Coevery.Tests.Modules</Name>
@@ -65,7 +72,7 @@
       <Project>{abc826d4-2fa1-4f2f-87de-e6095f653810}</Project>
       <Name>Coevery.Framework.Tests</Name>
     </ProjectReference>
-    $$CoeveryReferences$$
-  </ItemGroup>
+    <#=CoeveryReferences#>
+    </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

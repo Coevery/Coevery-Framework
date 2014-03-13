@@ -1,4 +1,8 @@
-﻿using System;
+﻿<#@ template debug="false" language="C#" #>
+<#@ output extension=".txt" #>
+<#@ parameter type="System.String" name="FeatureName" #>
+<#@ parameter type="System.String" name="Commands" #>
+using System;
 using System.Collections.Generic;
 using System.Data;
 using Coevery.ContentManagement.Drivers;
@@ -7,11 +11,11 @@ using Coevery.ContentManagement.MetaData.Builders;
 using Coevery.Core.Contents.Extensions;
 using Coevery.Data.Migration;
 
-namespace $$FeatureName$$ {
+namespace <#=FeatureName#> {
     public class Migrations : DataMigrationImpl {
 
         public int Create() {
-$$Commands$$
+			<#=Commands#>
 
             return 1;
         }
